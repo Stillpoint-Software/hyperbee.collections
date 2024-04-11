@@ -1,3 +1,4 @@
 # Things TODO
 
-## Add work to be done
+- Improve usage documation
+- Add more test coverage
