@@ -61,4 +61,6 @@ linked.Push( new Dictionary<string, string>
 
 # Help
 
-See [Todo](https://github.com/Stillpoint-Software/hyperbee.collection/blob/main/docs/todo.md)
+See [Todo](https://github.com/Stillpoint-Software/hyperbee.collections/blob/main/docs/todo.md)
+
+[![Hyperbee.Collections](https://github.com/Stillpoint-Software/Hyperbee.Collections/blob/main/assets/hyperbee.svg?raw=true)](https://github.com/Stillpoint-Software/Hyperbee.Collections)
