@@ -59,6 +59,10 @@ linked.Push( new Dictionary<string, string>
 | `main`     | [![Build status](https://github.com/Stillpoint-Software/hyperbee.collection/actions/workflows/publish.yml/badge.svg)](https://github.com/Stillpoint-Software/hyperbee.collection/actions/workflows/publish.yml)                 |
 
 
+# Benchmarks
+ See [Benchmarks](https://github.com/Stillpoint-Software/Hyperbee.Collections/test/Hyperbee.Collections.Benchmark/benchmark/results/Hyperbee.Collections.Benchmark.CollectionsBenchmark-report-github.md)
+ 
+
 # Help
 
 See [Todo](https://github.com/Stillpoint-Software/hyperbee.collections/blob/main/docs/todo.md)

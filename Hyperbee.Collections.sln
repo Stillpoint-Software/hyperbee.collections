@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CF26B264-4
 		docs\todo.md = docs\todo.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbee.Collections.Benchmark", "test\Hyperbee.Collections.Benchmark\Hyperbee.Collections.Benchmark.csproj", "{970B058A-66CA-4157-B4DD-F79C89EBB9B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{970B058A-66CA-4157-B4DD-F79C89EBB9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{970B058A-66CA-4157-B4DD-F79C89EBB9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{970B058A-66CA-4157-B4DD-F79C89EBB9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{970B058A-66CA-4157-B4DD-F79C89EBB9B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{4DBDB7F5-3F66-4572-80B5-3322449C77A4} = {1FA7CE2A-C9DA-4DC3-A242-5A7EAF8EE4FC}
 		{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF} = {F9B24CD9-E06B-4834-84CB-8C29E5F10BE0}
 		{CF26B264-4EF4-4C31-BF2D-978B09FA343B} = {870D9301-BE3D-44EA-BF9C-FCC2E87FE4CD}
+		{970B058A-66CA-4157-B4DD-F79C89EBB9B4} = {F9B24CD9-E06B-4834-84CB-8C29E5F10BE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32874F5B-B467-4F28-A8E2-82C2536FB228}
