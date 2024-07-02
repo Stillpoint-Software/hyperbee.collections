@@ -21,13 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1FA7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{4DBDB7F5-3F66-4572-80B5-3322449C77A4}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\create-prerelease.yml = .github\workflows\create-prerelease.yml
 		.github\workflows\create-release.yml = .github\workflows\create-release.yml
 		.github\workflows\format.yml = .github\workflows\format.yml
 		.github\workflows\issue-branch.yml = .github\workflows\issue-branch.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
 		.github\workflows\test-report.yml = .github\workflows\test-report.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
+		.github\workflows\update-version.yml = .github\workflows\update-version.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections", "src\Hyperbee.Collections\Hyperbee.Collections.csproj", "{574DD649-BC5B-40F5-92E5-BE6A289D4C92}"
@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CF26B264-4
 		docs\todo.md = docs\todo.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbee.Collections.Benchmark", "test\Hyperbee.Collections.Benchmark\Hyperbee.Collections.Benchmark.csproj", "{970B058A-66CA-4157-B4DD-F79C89EBB9B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections.Benchmark", "test\Hyperbee.Collections.Benchmark\Hyperbee.Collections.Benchmark.csproj", "{970B058A-66CA-4157-B4DD-F79C89EBB9B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
