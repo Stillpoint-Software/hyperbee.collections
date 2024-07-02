@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hyperbee.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests;
