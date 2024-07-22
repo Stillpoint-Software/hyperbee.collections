@@ -6,7 +6,7 @@
 
 	<Authors>Stillpoint Software, Inc.</Authors>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageTags>collections;dotnet;dictionaries;</PackageTags>
+	<PackageTags>collections;NET;dictionaries;</PackageTags>
 	<PackageIcon>icon.png</PackageIcon>
 	<PackageProjectUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections/</PackageProjectUrl>
 	<TargetFrameworks>net8.0</TargetFrameworks>
