@@ -17,7 +17,7 @@
     <None Include="$(MSBuildThisFileDirectory)Linked-Dictionary.md" />
     <None Include="$(MSBuildThisFileDirectory)Ordered-Dictionary.md" />
     <None Include="$(MSBuildThisFileDirectory)Ordered-Set.md" />
-    <None Include="$(MSBuildThisFileDirectory)todo.md" />
+    <None Include="$(MSBuildThisFileDirectory).todo.md" />
     <None Include="$(MSBuildThisFileDirectory)_config.yml" />
   </ItemGroup>
   <ItemGroup>
