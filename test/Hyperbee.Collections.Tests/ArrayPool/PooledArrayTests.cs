@@ -13,11 +13,11 @@ public class PooledArrayTests
         using var array = new PooledArray<int>();
 
         // Act
-        array.Add(10);
+        array.Add( 10 );
 
         // Assert
-        Assert.AreEqual(1, array.Count);
-        Assert.AreEqual(10, array[0]);
+        Assert.AreEqual( 1, array.Count );
+        Assert.AreEqual( 10, array[0] );
     }
 
     [TestMethod]
@@ -27,7 +27,7 @@ public class PooledArrayTests
         using var array = new PooledArray<int>();
 
         // Act & Assert
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() => _ = array[0]);
+        Assert.ThrowsException<ArgumentOutOfRangeException>( () => _ = array[0] );
     }
 
     [TestMethod]
@@ -35,17 +35,17 @@ public class PooledArrayTests
     {
         // Arrange
         using var source = new PooledArray<int>();
-        source.Add(1);
-        source.Add(2);
-        source.Add(3);
+        source.Add( 1 );
+        source.Add( 2 );
+        source.Add( 3 );
 
         // Act
-        using var result = source.CopyTo(x => x > 1);
+        using var result = source.CopyTo( x => x > 1 );
 
         // Assert
-        Assert.AreEqual(2, result.Count);
-        Assert.AreEqual(2, result[0]);
-        Assert.AreEqual(3, result[1]);
+        Assert.AreEqual( 2, result.Count );
+        Assert.AreEqual( 2, result[0] );
+        Assert.AreEqual( 3, result[1] );
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class PooledArrayTests
         array.Dispose();
 
         // Assert
-        Assert.ThrowsException<ObjectDisposedException>(() => array.Add(1));
+        Assert.ThrowsException<ObjectDisposedException>( () => array.Add( 1 ) );
     }
 
     [TestMethod]
@@ -66,17 +66,17 @@ public class PooledArrayTests
     {
         // Arrange
         using var array = new PooledArray<int>();
-        array.Add(1);
-        array.Add(2);
+        array.Add( 1 );
+        array.Add( 2 );
 
         // Act
-        array.Insert(1, 99);
+        array.Insert( 1, 99 );
 
         // Assert
-        Assert.AreEqual(3, array.Count);
-        Assert.AreEqual(1, array[0]);
-        Assert.AreEqual(99, array[1]);
-        Assert.AreEqual(2, array[2]);
+        Assert.AreEqual( 3, array.Count );
+        Assert.AreEqual( 1, array[0] );
+        Assert.AreEqual( 99, array[1] );
+        Assert.AreEqual( 2, array[2] );
     }
 
     [TestMethod]
@@ -84,16 +84,16 @@ public class PooledArrayTests
     {
         // Arrange
         using var array = new PooledArray<int>();
-        array.Add(1);
-        array.Add(2);
-        array.Add(3);
+        array.Add( 1 );
+        array.Add( 2 );
+        array.Add( 3 );
 
         // Act
-        array.Remove(1);
+        array.Remove( 1 );
 
         // Assert
-        Assert.AreEqual(2, array.Count);
-        Assert.AreEqual(1, array[0]);
-        Assert.AreEqual(3, array[1]);
+        Assert.AreEqual( 2, array.Count );
+        Assert.AreEqual( 1, array[0] );
+        Assert.AreEqual( 3, array[1] );
     }
 }

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Hyperbee.Collections.ArrayPool;
 
 [DebuggerDisplay( "Count = {Count}" )]
-[DebuggerTypeProxy( typeof(PooledStack<>.DebuggerView) )]
+[DebuggerTypeProxy( typeof( PooledStack<>.DebuggerView ) )]
 public class PooledStack<T> : IDisposable
 {
     private readonly PooledArray<T> _array;
@@ -83,7 +83,7 @@ public class PooledStack<T> : IDisposable
     private void ThrowIfDisposed()
     {
         if ( _disposed )
-            throw new ObjectDisposedException( nameof(PooledArray<T>), "Cannot access a disposed object." );
+            throw new ObjectDisposedException( nameof( PooledArray<T> ), "Cannot access a disposed object." );
     }
 
     private class DebuggerView
@@ -92,7 +92,7 @@ public class PooledStack<T> : IDisposable
 
         public DebuggerView( PooledStack<T> pooledStack )
         {
-            _pooledStack = pooledStack ?? throw new ArgumentNullException( nameof(pooledStack) );
+            _pooledStack = pooledStack ?? throw new ArgumentNullException( nameof( pooledStack ) );
         }
 
         [DebuggerBrowsable( DebuggerBrowsableState.RootHidden )]

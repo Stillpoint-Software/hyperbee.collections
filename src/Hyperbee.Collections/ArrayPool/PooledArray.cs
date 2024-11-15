@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Hyperbee.Collections.ArrayPool;
 
 [DebuggerDisplay( "Count = {Count}" )]
-[DebuggerTypeProxy( typeof(PooledArray<>.DebuggerView ) )]
+[DebuggerTypeProxy( typeof( PooledArray<>.DebuggerView ) )]
 public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 {
     private T[] _array;
@@ -23,25 +23,25 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
     public ReadOnlySpan<T> AsReadOnlySpan()
     {
         ThrowIfDisposed();
-        return new ReadOnlySpan<T>(_array, 0, _count);
+        return new ReadOnlySpan<T>( _array, 0, _count );
     }
 
     public ReadOnlySpan<T> AsReadOnlySpan( int start, int count )
     {
         ThrowIfDisposed();
-        return new ReadOnlySpan<T>(_array, start, Math.Min( count, _count ));
+        return new ReadOnlySpan<T>( _array, start, Math.Min( count, _count ) );
     }
 
     public Span<T> AsSpan()
     {
         ThrowIfDisposed();
-        return new Span<T>(_array, 0, _count);
+        return new Span<T>( _array, 0, _count );
     }
 
     public Span<T> AsSpan( int start, int count )
     {
         ThrowIfDisposed();
-        return new Span<T>(_array, start, Math.Min( count, _count ));
+        return new Span<T>( _array, start, Math.Min( count, _count ) );
     }
 
     public int Count
@@ -314,7 +314,7 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
     private void ThrowIfDisposed()
     {
         if ( _disposed )
-            throw new ObjectDisposedException( nameof(PooledArray<T>), "Cannot access a disposed object." );
+            throw new ObjectDisposedException( nameof( PooledArray<T> ), "Cannot access a disposed object." );
     }
 
     private class DebuggerView
@@ -323,7 +323,7 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
         public DebuggerView( PooledArray<T> pooledArray )
         {
-            _pooledArray = pooledArray ?? throw new ArgumentNullException( nameof(pooledArray) );
+            _pooledArray = pooledArray ?? throw new ArgumentNullException( nameof( pooledArray ) );
         }
 
         [DebuggerBrowsable( DebuggerBrowsableState.RootHidden )]
