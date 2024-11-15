@@ -34,12 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections.Tests", "test\Hyperbee.Collections.Tests\Hyperbee.Collections.Tests.csproj", "{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CF26B264-4EF4-4C31-BF2D-978B09FA343B}"
-	ProjectSection(SolutionItems) = preProject
-		docs\todo.md = docs\todo.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections.Benchmark", "test\Hyperbee.Collections.Benchmark\Hyperbee.Collections.Benchmark.csproj", "{970B058A-66CA-4157-B4DD-F79C89EBB9B4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "docs", "docs\docs.shproj", "{19842679-C717-4120-80E1-175AB4B15554}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +64,13 @@ Global
 		{1FA7CE2A-C9DA-4DC3-A242-5A7EAF8EE4FC} = {870D9301-BE3D-44EA-BF9C-FCC2E87FE4CD}
 		{4DBDB7F5-3F66-4572-80B5-3322449C77A4} = {1FA7CE2A-C9DA-4DC3-A242-5A7EAF8EE4FC}
 		{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF} = {F9B24CD9-E06B-4834-84CB-8C29E5F10BE0}
-		{CF26B264-4EF4-4C31-BF2D-978B09FA343B} = {870D9301-BE3D-44EA-BF9C-FCC2E87FE4CD}
 		{970B058A-66CA-4157-B4DD-F79C89EBB9B4} = {F9B24CD9-E06B-4834-84CB-8C29E5F10BE0}
+		{19842679-C717-4120-80E1-175AB4B15554} = {870D9301-BE3D-44EA-BF9C-FCC2E87FE4CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32874F5B-B467-4F28-A8E2-82C2536FB228}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		docs\docs.projitems*{19842679-c717-4120-80e1-175ab4b15554}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
