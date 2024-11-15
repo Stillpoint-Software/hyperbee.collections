@@ -13,6 +13,7 @@
     <None Include="$(MSBuildThisFileDirectory)Concurrent-Set.md" />
     <None Include="$(MSBuildThisFileDirectory)Deque.md" />
     <None Include="$(MSBuildThisFileDirectory)Dynamic-Dictionary-Base.md" />
+    <None Include="$(MSBuildThisFileDirectory)index.md" />
     <None Include="$(MSBuildThisFileDirectory)Linked-Dictionary.md" />
     <None Include="$(MSBuildThisFileDirectory)Ordered-Dictionary.md" />
     <None Include="$(MSBuildThisFileDirectory)Ordered-Set.md" />
