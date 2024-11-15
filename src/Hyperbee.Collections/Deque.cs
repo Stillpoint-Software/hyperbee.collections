@@ -30,6 +30,7 @@
 #endregion
 
 using System.Collections;
+using Hyperbee.Collections.Core;
 
 // ReSharper disable PossibleMultipleEnumeration
 

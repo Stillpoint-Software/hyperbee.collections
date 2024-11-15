@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Hyperbee.Collections;
+using Hyperbee.Collections.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests;

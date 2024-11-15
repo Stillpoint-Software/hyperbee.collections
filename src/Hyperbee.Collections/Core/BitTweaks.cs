@@ -15,7 +15,7 @@
 // FIX: Pulled from Hyperbee.Core which is not OpenSource yet.
 using System.Runtime.CompilerServices;
 
-namespace Hyperbee.Collections;
+namespace Hyperbee.Collections.Core;
 
 internal static class BitTweaks
 {
@@ -24,21 +24,21 @@ internal static class BitTweaks
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int CountBits( uint n )
     {
-        n -= ((n >> 1) & 0x55555555);
-        n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
-        n = (n + (n >> 4)) & 0x0F0F0F0F;
+        n -= n >> 1 & 0x55555555;
+        n = (n & 0x33333333) + (n >> 2 & 0x33333333);
+        n = n + (n >> 4) & 0x0F0F0F0F;
 
-        return (int) ((n * 0x01010101) >> 24);
+        return (int) (n * 0x01010101 >> 24);
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int CountBits( ulong n )
     {
-        n -= ((n >> 1) & 0x5555555555555555);
-        n = (n & 0x3333333333333333) + ((n >> 2) & 0x3333333333333333);
-        n = (n + (n >> 4)) & 0xF0F0F0F0F0F0F0F;
+        n -= n >> 1 & 0x5555555555555555;
+        n = (n & 0x3333333333333333) + (n >> 2 & 0x3333333333333333);
+        n = n + (n >> 4) & 0xF0F0F0F0F0F0F0F;
 
-        return (int) ((n * 0x101010101010101) >> 56);
+        return (int) (n * 0x101010101010101 >> 56);
     }
 
     // The total number of leading zero bits.
@@ -46,8 +46,8 @@ internal static class BitTweaks
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int CountLeadingZeroBits( int n )
     {
-        int c = 0;
-        int y = n;
+        var c = 0;
+        var y = n;
 
 L:
         if ( n < 0 )
@@ -65,8 +65,8 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int CountLeadingZeroBits( long n )
     {
-        int c = 0;
-        long y = n;
+        var c = 0;
+        var y = n;
 
 L:
         if ( n < 0 )
@@ -86,25 +86,25 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int CountTrailingZeroBits( int n )
     {
-        n = ~n & (n - 1); // Clears the lowest set bit and above, and then sets all lower bits. 
+        n = ~n & n - 1; // Clears the lowest set bit and above, and then sets all lower bits. 
 
         // count
-        n -= ((n >> 1) & 0x55555555);
-        n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
-        n = (n + (n >> 4)) & 0x0F0F0F0F;
-        return (n * 0x01010101) >> 24;
+        n -= n >> 1 & 0x55555555;
+        n = (n & 0x33333333) + (n >> 2 & 0x33333333);
+        n = n + (n >> 4) & 0x0F0F0F0F;
+        return n * 0x01010101 >> 24;
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int CountTrailingZeroBits( long n )
     {
-        n = ~n & (n - 1); // Clears the lowest set bit and above, and then sets all lower bits. 
+        n = ~n & n - 1; // Clears the lowest set bit and above, and then sets all lower bits. 
 
         // count
-        n -= ((n >> 1) & 0x5555555555555555);
-        n = (n & 0x3333333333333333) + ((n >> 2) & 0x3333333333333333);
-        n = (n + (n >> 4)) & 0xF0F0F0F0F0F0F0F;
-        return (int) ((n * 0x101010101010101) >> 56);
+        n -= n >> 1 & 0x5555555555555555;
+        n = (n & 0x3333333333333333) + (n >> 2 & 0x3333333333333333);
+        n = n + (n >> 4) & 0xF0F0F0F0F0F0F0F;
+        return (int) (n * 0x101010101010101 >> 56);
     }
 
     // The result of dividend / divisor rounded up to the next whole integer.
@@ -144,13 +144,13 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int GetLsb( int n )
     {
-        return n & (~n + 1); // clear all bits except the lowest set bit
+        return n & ~n + 1; // clear all bits except the lowest set bit
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static long GetLsb( long n )
     {
-        return n & (~n + 1); // clear all bits except the lowest set bit
+        return n & ~n + 1; // clear all bits except the lowest set bit
     }
 
     // The least significant unset bit value.
@@ -158,13 +158,13 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int GetLszb( int n )
     {
-        return ~n & (n + 1);
+        return ~n & n + 1;
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static long GetLszb( long n )
     {
-        return ~n & (n + 1);
+        return ~n & n + 1;
     }
 
     // Clear the lowest (least significant) bit.
@@ -172,13 +172,13 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int ClearLsb( int n )
     {
-        return n & (n - 1);
+        return n & n - 1;
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static long ClearLsb( long n )
     {
-        return n & (n - 1);
+        return n & n - 1;
     }
 
     // Set the lowest (least significant) 0 bit.
@@ -186,13 +186,13 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int SetLszb( int n )
     {
-        return n | (n + 1);
+        return n | n + 1;
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static long SetLszb( long n )
     {
-        return n | (n + 1);
+        return n | n + 1;
     }
 
     // Get a bitmask of all the bits trailing the lowest set bit.
@@ -202,13 +202,13 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static int GetLsbTrailingMask( int n )
     {
-        return ~n & (n - 1);
+        return ~n & n - 1;
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static long GetLsbTrailingMask( long n )
     {
-        return ~n & (n - 1);
+        return ~n & n - 1;
     }
 
     // Query if 'n' is power of two.
@@ -216,13 +216,13 @@ L:
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static bool IsPowerOfTwo( uint n )
     {
-        return (n & (n - 1)) == 0;
+        return (n & n - 1) == 0;
     }
 
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public static bool IsPowerOfTwo( ulong n )
     {
-        return (n & (n - 1)) == 0;
+        return (n & n - 1) == 0;
     }
 
     // Round up to next power of two.
