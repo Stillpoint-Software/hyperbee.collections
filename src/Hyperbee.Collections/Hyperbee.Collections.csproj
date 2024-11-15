@@ -9,7 +9,7 @@
 	<PackageTags>collections;NET;dictionaries;</PackageTags>
 	<PackageIcon>icon.png</PackageIcon>
 	<PackageProjectUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections/</PackageProjectUrl>
-	<TargetFrameworks>net9.0</TargetFrameworks>
+  <TargetFramework>net8.0</TargetFramework>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<Copyright>Stillpoint Software, Inc.</Copyright>
 	<Title>Hyperbee Collections</Title>
