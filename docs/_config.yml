@@ -1,7 +1,7 @@
 ﻿title: Hyperbee Collections
 description: Documentation for Hyperbee Collections.
 remote_theme: pmarsceill/just-the-docs
-baseurl: "/hyperbee.Collections/"
+baseurl: "/hyperbee.collections/"
 url: "https://stillpoint-software.github.io"
 
 aux_links:
