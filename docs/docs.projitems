@@ -16,6 +16,8 @@
     <None Include="$(MSBuildThisFileDirectory)index.md" />
     <None Include="$(MSBuildThisFileDirectory)Linked-Dictionary.md" />
     <None Include="$(MSBuildThisFileDirectory)Ordered-Dictionary.md" />
+    <None Include="$(MSBuildThisFileDirectory)Pooled-Stack.md" />
+    <None Include="$(MSBuildThisFileDirectory)Pooled-Array.md" />
     <None Include="$(MSBuildThisFileDirectory)Ordered-Set.md" />
     <None Include="$(MSBuildThisFileDirectory).todo.md" />
     <None Include="$(MSBuildThisFileDirectory)_config.yml" />

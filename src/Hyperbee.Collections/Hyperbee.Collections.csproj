@@ -1,24 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
-	<IsPackable>true</IsPackable>
+    <Nullable>disable</Nullable>
+	  <IsPackable>true</IsPackable>
 
-	<Authors>Stillpoint Software, Inc.</Authors>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageTags>collections;NET;dictionaries;</PackageTags>
-	<PackageIcon>icon.png</PackageIcon>
-	<PackageProjectUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections/</PackageProjectUrl>
-  <TargetFramework>net9.0</TargetFramework>
-	<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	<Copyright>Stillpoint Software, Inc.</Copyright>
-	<Title>Hyperbee Collections</Title>
-	<Description>Additional collections types such as ConcurrentSet, OrderDictionary and LinkedDictionaries</Description>
-	<RepositoryUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
-	<PackageReleaseNotes>https://github.com/Stillpoint-Software/hyperbee.collections/releases/latest</PackageReleaseNotes>
-
+	  <Authors>Stillpoint Software, Inc.</Authors>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageTags>collections;NET;dictionaries;</PackageTags>
+	  <PackageIcon>icon.png</PackageIcon>
+	  <PackageProjectUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections/</PackageProjectUrl>
+	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	  <Copyright>Stillpoint Software, Inc.</Copyright>
+	  <Title>Hyperbee Collections</Title>
+	  <Description>Additional collections types such as ConcurrentSet, OrderDictionary and LinkedDictionaries</Description>
+	  <RepositoryUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageReleaseNotes>https://github.com/Stillpoint-Software/hyperbee.collections/releases/latest</PackageReleaseNotes>
   </PropertyGroup>
+
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>$(AssemblyName).Tests</_Parameter1>

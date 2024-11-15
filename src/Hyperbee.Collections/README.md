@@ -42,3 +42,11 @@ A dictionary that preserves insertion order for enumerations
 
 ## OrderedSet
 A set using on `System.Collections.ObjectModel.KeyedCollection`
+
+## PooledArray
+
+A generic array that uses the array-pool
+
+## PooledStack
+
+A generic stack that uses the array-pool
