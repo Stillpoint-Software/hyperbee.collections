@@ -36,10 +36,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections.Tests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CF26B264-4EF4-4C31-BF2D-978B09FA343B}"
 	ProjectSection(SolutionItems) = preProject
+		Concurrent-Set.md = Concurrent-Set.md
+		AhoCorasick-Trie.md = AhoCorasick-Trie.md
+		Deque.md = Deque.md
+		Dynamic-Dictionary-Base.md = Dynamic-Dictionary-Base.md
+		Linked-Dictionary.md = Linked-Dictionary.md
+		Ordered-Dictionary.md = Ordered-Dictionary.md
+		Ordered-Set.md = Ordered-Set.md
 		docs\todo.md = docs\todo.md
+		_config.yml = _config.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections.Benchmark", "test\Hyperbee.Collections.Benchmark\Hyperbee.Collections.Benchmark.csproj", "{970B058A-66CA-4157-B4DD-F79C89EBB9B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_includes", "_includes", "{7FB56DC7-7997-4D8A-91A7-496A32EEF02A}"
+	ProjectSection(SolutionItems) = preProject
+		nav_footer_custom.html = nav_footer_custom.html
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +82,7 @@ Global
 		{C75190AA-C837-4CB5-8C35-CF2F6DBA7BCF} = {F9B24CD9-E06B-4834-84CB-8C29E5F10BE0}
 		{CF26B264-4EF4-4C31-BF2D-978B09FA343B} = {870D9301-BE3D-44EA-BF9C-FCC2E87FE4CD}
 		{970B058A-66CA-4157-B4DD-F79C89EBB9B4} = {F9B24CD9-E06B-4834-84CB-8C29E5F10BE0}
+		{7FB56DC7-7997-4D8A-91A7-496A32EEF02A} = {CF26B264-4EF4-4C31-BF2D-978B09FA343B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32874F5B-B467-4F28-A8E2-82C2536FB228}
