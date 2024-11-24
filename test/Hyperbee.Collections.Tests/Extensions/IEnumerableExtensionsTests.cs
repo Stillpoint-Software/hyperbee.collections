@@ -12,7 +12,7 @@ public class IEnumerableExtensionsTests
     [TestInitialize]
     public void TestInitialize()
     {
-        _testData = Enumerable.Range(1, 100).ToList();
+        _testData = Enumerable.Range( 1, 100 ).ToList();
     }
 
     [TestMethod]
@@ -22,14 +22,14 @@ public class IEnumerableExtensionsTests
         var processedItems = new ConcurrentBag<int>();
 
         // Act
-        await _testData.ForEachAsync(async item =>
+        await _testData.ForEachAsync( async item =>
         {
-            processedItems.Add(item); 
-            await Task.Yield(); 
-        });
+            processedItems.Add( item );
+            await Task.Yield();
+        } );
 
         // Assert
-        CollectionAssert.AreEquivalent(_testData, processedItems.ToList());
+        CollectionAssert.AreEquivalent( _testData, processedItems.ToList() );
     }
 
     [TestMethod]
@@ -40,30 +40,30 @@ public class IEnumerableExtensionsTests
         var processedItems = new ConcurrentBag<int>();
 
         // Act
-        await emptyData.ForEachAsync(async item =>
+        await emptyData.ForEachAsync( async item =>
         {
-            processedItems.Add(item); // Should never be called
+            processedItems.Add( item ); // Should never be called
             await Task.Yield();
-        });
+        } );
 
         // Assert
-        Assert.AreEqual(0, processedItems.Count, "No items should be processed for an empty collection.");
+        Assert.AreEqual( 0, processedItems.Count, "No items should be processed for an empty collection." );
     }
 
     [TestMethod]
     public async Task ForEachAsync_ShouldThrowArgumentNullException_ForNullSource()
     {
         // Act & Assert
-        await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-            ((IEnumerable<int>)null).ForEachAsync(async item => await Task.Yield()));
+        await Assert.ThrowsExceptionAsync<ArgumentNullException>( () =>
+            ((IEnumerable<int>) null).ForEachAsync( async item => await Task.Yield() ) );
     }
 
     [TestMethod]
     public async Task ForEachAsync_ShouldThrowArgumentNullException_ForNullDelegate()
     {
         // Act & Assert
-        await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-            _testData.ForEachAsync(null));
+        await Assert.ThrowsExceptionAsync<ArgumentNullException>( () =>
+            _testData.ForEachAsync( null ) );
     }
 
     [TestMethod]
@@ -72,24 +72,24 @@ public class IEnumerableExtensionsTests
         // Arrange
         var processedItems = new ConcurrentBag<int>();
         var cts = new CancellationTokenSource();
-        cts.CancelAfter(50); // Cancel after 50ms
+        cts.CancelAfter( 50 ); // Cancel after 50ms
 
         // Act
         try
         {
-            await _testData.ForEachAsync(async item =>
+            await _testData.ForEachAsync( async item =>
             {
-                await Task.Delay(10, cts.Token ); 
-                processedItems.Add(item);
-            }, cancellationToken: cts.Token);
+                await Task.Delay( 10, cts.Token );
+                processedItems.Add( item );
+            }, cancellationToken: cts.Token );
         }
-        catch (OperationCanceledException)
+        catch ( OperationCanceledException )
         {
             // Expected
         }
 
         // Assert
-        Assert.IsTrue(processedItems.Count < _testData.Count, "Not all items should be processed after cancellation.");
+        Assert.IsTrue( processedItems.Count < _testData.Count, "Not all items should be processed after cancellation." );
     }
 
     [TestMethod]
@@ -101,23 +101,23 @@ public class IEnumerableExtensionsTests
         // Act
         try
         {
-            await _testData.ForEachAsync(async item =>
+            await _testData.ForEachAsync( async item =>
             {
-                if (item == 50)
+                if ( item == 50 )
                 {
-                    throw new InvalidOperationException("Test exception");
+                    throw new InvalidOperationException( "Test exception" );
                 }
 
-                await Task.Yield(); 
-            });
+                await Task.Yield();
+            } );
         }
-        catch (InvalidOperationException ex)
+        catch ( InvalidOperationException ex )
         {
             exceptionThrown = true;
-            Assert.AreEqual("Test exception", ex.Message);
+            Assert.AreEqual( "Test exception", ex.Message );
         }
 
         // Assert
-        Assert.IsTrue(exceptionThrown, "The exception should be propagated.");
+        Assert.IsTrue( exceptionThrown, "The exception should be propagated." );
     }
 }
