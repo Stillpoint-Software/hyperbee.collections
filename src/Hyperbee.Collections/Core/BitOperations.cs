@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 
 namespace Hyperbee.Collections.Core;
 
-internal static class BitTweaks
+internal static class BitOperations
 {
     // The number of set bits.
 

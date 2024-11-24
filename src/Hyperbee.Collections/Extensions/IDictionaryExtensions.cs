@@ -10,7 +10,7 @@ public static class DictionaryExtensions
         // https://gist.github.com/theburningmonk/2221646
 
         var expandoObject = new ExpandoObject();
-        var expandoDictionary = (IDictionary<string, object>) expandoObject;
+        IDictionary<string, object> expandoDictionary = expandoObject;
 
         foreach ( var pair in dictionary )
         {

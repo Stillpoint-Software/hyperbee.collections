@@ -1,67 +1,126 @@
 ﻿using System.Collections.Concurrent;
+using System.Runtime.ExceptionServices;
 
 namespace Hyperbee.Collections.Extensions;
 
-public static class EnumerableExtensions
+public static class IEnumerableExtensions
 {
-    public static Task ForEachAsync<T>( this IEnumerable<T> source, Func<T, Task> function, ParallelOptions options = default )
+    public static Task ForEachAsync<T>(
+        this IEnumerable<T> source,
+        Func<T, Task> asyncAction,
+        CancellationToken cancellationToken = default )
     {
-        options ??= new ParallelOptions();
+        ArgumentNullException.ThrowIfNull( source, nameof(source) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
 
-        if ( options.TaskScheduler != null && options.TaskScheduler != TaskScheduler.Default )
-            return source.ForEachAsync( function, options.TaskScheduler, options.MaxDegreeOfParallelism, options.CancellationToken );
-
-        return source.ForEachAsync( function, options.MaxDegreeOfParallelism, options.CancellationToken );
+        return ForEachAsync( source, asyncAction, Environment.ProcessorCount, cancellationToken );
     }
 
-    public static Task ForEachAsync<T>( this IEnumerable<T> source, Func<T, Task> function, int maxDegreeOfParallelism, CancellationToken cancellationToken = default )
+    public static Task ForEachAsync<T>(
+        this IEnumerable<T> source,
+        Func<T, Task> asyncAction,
+        ParallelOptions options )
     {
+        ArgumentNullException.ThrowIfNull( source, nameof(source) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
+
+        options ??= new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+
+        if ( options.TaskScheduler != null && options.TaskScheduler != TaskScheduler.Default )
+            return ForEachAsync( source, asyncAction, options.TaskScheduler, options.MaxDegreeOfParallelism, options.CancellationToken );
+
+        return ForEachAsync( source, asyncAction, options.MaxDegreeOfParallelism, options.CancellationToken );
+    }
+
+    public static Task ForEachAsync<T>(
+        this IEnumerable<T> source,
+        Func<T, Task> asyncAction,
+        int maxDegreeOfParallelism,
+        CancellationToken cancellationToken = default )
+    {
+        ArgumentNullException.ThrowIfNull( source, nameof(source) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
+
         if ( maxDegreeOfParallelism <= 0 )
             maxDegreeOfParallelism = Environment.ProcessorCount;
 
-        return Task.WhenAll( Partitioner
+        var cts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+
+        var tasks = Partitioner
             .Create( source )
             .GetPartitions( maxDegreeOfParallelism )
             .Select( partition => Task.Run( async () =>
             {
                 using var enumerator = partition;
-                while ( partition.MoveNext() )
+                while ( enumerator.MoveNext() )
                 {
-                    await function( partition.Current ).ConfigureAwait( false );
+                    cts.Token.ThrowIfCancellationRequested();
+                    await asyncAction( enumerator.Current ).ConfigureAwait( false );
                 }
-            }, cancellationToken ) ) );
+            }, cts.Token ) );
+
+        return Task.WhenAll( tasks ).ContinueWith( task =>
+        {
+            cts.Dispose();
+
+            if ( task.IsFaulted )
+            {
+                // Unwrap and rethrow the first exception
+                ExceptionDispatchInfo.Capture(
+                    task.Exception!.InnerExceptions.First()
+                ).Throw();
+            }
+
+            if ( task.IsCanceled )
+                throw new OperationCanceledException();
+
+        }, TaskScheduler.Default ); // Run continuation on the default scheduler
     }
 
-    public static Task ForEachAsync<T>( this IEnumerable<T> source, Func<T, Task> function, TaskScheduler scheduler, int maxDegreeOfParallelism, CancellationToken cancellationToken = default )
+    public static Task ForEachAsync<T>(
+        this IEnumerable<T> source,
+        Func<T, Task> asyncAction,
+        TaskScheduler scheduler,
+        int maxDegreeOfParallelism,
+        CancellationToken cancellationToken = default )
     {
+        ArgumentNullException.ThrowIfNull( source, nameof(source) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
+        ArgumentNullException.ThrowIfNull( scheduler, nameof(scheduler) );
+
         if ( maxDegreeOfParallelism <= 0 )
             maxDegreeOfParallelism = Environment.ProcessorCount;
 
-        scheduler ??= TaskScheduler.Current;
+        var cts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
-        return Task.WhenAll( Partitioner
+        var tasks = Partitioner
             .Create( source )
             .GetPartitions( maxDegreeOfParallelism )
-            .Select( partition => TaskExtensions.Run( async () =>
+            .Select( partition => Task.Factory.StartNew( async () =>
             {
                 using var enumerator = partition;
-                while ( partition.MoveNext() )
+                while ( enumerator.MoveNext() )
                 {
-                    await function( partition.Current ).ConfigureAwait( false );
+                    cts.Token.ThrowIfCancellationRequested();
+                    await asyncAction( enumerator.Current ).ConfigureAwait( false );
                 }
-            }, scheduler, cancellationToken ) ) );
-    }
-}
+            }, cts.Token, TaskCreationOptions.DenyChildAttach, scheduler ).Unwrap() );
 
-// FIX: Pulled from Hyperbee.Tasks which is not OpenSource yet.
-public static class TaskExtensions
-{
-    public static Task Run( Func<Task> function, TaskScheduler scheduler, CancellationToken cancellationToken )
-    {
-        ArgumentNullException.ThrowIfNull( function );
+        return Task.WhenAll( tasks ).ContinueWith( task =>
+        {
+            cts.Dispose();
 
-        return cancellationToken.IsCancellationRequested
-            ? Task.FromCanceled( cancellationToken )
-            : Task.Factory.StartNew( function, cancellationToken, TaskCreationOptions.DenyChildAttach, scheduler ?? TaskScheduler.Default ).Unwrap();
+            if ( task.IsFaulted )
+            {
+                // Unwrap and rethrow the first exception
+                ExceptionDispatchInfo.Capture(
+                    task.Exception!.InnerExceptions.First()
+                ).Throw();
+            }
+
+            if ( task.IsCanceled )
+                throw new OperationCanceledException();
+
+        }, TaskScheduler.Default ); // Run continuation on the default scheduler
     }
 }
