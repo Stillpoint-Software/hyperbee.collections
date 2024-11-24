@@ -10,8 +10,8 @@ public static class IEnumerableExtensions
         Func<T, Task> asyncAction,
         CancellationToken cancellationToken = default )
     {
-        ArgumentNullException.ThrowIfNull( source, nameof(source) );
-        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
+        ArgumentNullException.ThrowIfNull( source, nameof( source ) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof( asyncAction ) );
 
         return ForEachAsync( source, asyncAction, Environment.ProcessorCount, cancellationToken );
     }
@@ -21,8 +21,8 @@ public static class IEnumerableExtensions
         Func<T, Task> asyncAction,
         ParallelOptions options )
     {
-        ArgumentNullException.ThrowIfNull( source, nameof(source) );
-        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
+        ArgumentNullException.ThrowIfNull( source, nameof( source ) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof( asyncAction ) );
 
         options ??= new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
 
@@ -38,8 +38,8 @@ public static class IEnumerableExtensions
         int maxDegreeOfParallelism,
         CancellationToken cancellationToken = default )
     {
-        ArgumentNullException.ThrowIfNull( source, nameof(source) );
-        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
+        ArgumentNullException.ThrowIfNull( source, nameof( source ) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof( asyncAction ) );
 
         if ( maxDegreeOfParallelism <= 0 )
             maxDegreeOfParallelism = Environment.ProcessorCount;
@@ -84,9 +84,9 @@ public static class IEnumerableExtensions
         int maxDegreeOfParallelism,
         CancellationToken cancellationToken = default )
     {
-        ArgumentNullException.ThrowIfNull( source, nameof(source) );
-        ArgumentNullException.ThrowIfNull( asyncAction, nameof(asyncAction) );
-        ArgumentNullException.ThrowIfNull( scheduler, nameof(scheduler) );
+        ArgumentNullException.ThrowIfNull( source, nameof( source ) );
+        ArgumentNullException.ThrowIfNull( asyncAction, nameof( asyncAction ) );
+        ArgumentNullException.ThrowIfNull( scheduler, nameof( scheduler ) );
 
         if ( maxDegreeOfParallelism <= 0 )
             maxDegreeOfParallelism = Environment.ProcessorCount;
