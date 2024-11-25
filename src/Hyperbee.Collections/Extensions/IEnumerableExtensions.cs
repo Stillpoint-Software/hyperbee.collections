@@ -5,6 +5,28 @@ namespace Hyperbee.Collections.Extensions;
 
 public static class IEnumerableExtensions
 {
+    // ParallelEachAsync
+    //
+    // Executes the specified asynchronous action on each element of the
+    // enumerable in parallel, with support for limiting concurrency and cancellation.
+    //
+    // Parameters:
+    // - source: The enumerable to process.
+    // - asyncAction: The asynchronous action to execute on each element.
+    // - maxDegreeOfParallelism: The maximum number of concurrent tasks. 
+    // - cancellationToken: The cancellation token to monitor for cancellation requests.
+    //
+    // Returns:
+    // A task that represents the completion of all asynchronous operations.
+    //
+    // Example:
+    // var testData = Enumerable.Range(1, 100);
+    // await testData.ParallelEachAsync(async item =>
+    // {
+    //     await ProcessItemAsync(item);
+    // }, maxDegreeOfParallelism: 4);
+    //
+
     public static Task ParallelEachAsync<T>(
         this IEnumerable<T> source,
         Func<T, Task> asyncAction,
