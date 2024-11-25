@@ -5,7 +5,7 @@ namespace Hyperbee.Collections.Extensions;
 
 public static class IEnumerableExtensions
 {
-    public static Task ForEachAsync<T>(
+    public static Task ParallelEachAsync<T>(
         this IEnumerable<T> source,
         Func<T, Task> asyncAction,
         CancellationToken cancellationToken = default )
@@ -13,10 +13,10 @@ public static class IEnumerableExtensions
         ArgumentNullException.ThrowIfNull( source, nameof( source ) );
         ArgumentNullException.ThrowIfNull( asyncAction, nameof( asyncAction ) );
 
-        return ForEachAsync( source, asyncAction, Environment.ProcessorCount, cancellationToken );
+        return ParallelEachAsync( source, asyncAction, Environment.ProcessorCount, cancellationToken );
     }
 
-    public static Task ForEachAsync<T>(
+    public static Task ParallelEachAsync<T>(
         this IEnumerable<T> source,
         Func<T, Task> asyncAction,
         ParallelOptions options )
@@ -27,12 +27,12 @@ public static class IEnumerableExtensions
         options ??= new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
 
         if ( options.TaskScheduler != null && options.TaskScheduler != TaskScheduler.Default )
-            return ForEachAsync( source, asyncAction, options.TaskScheduler, options.MaxDegreeOfParallelism, options.CancellationToken );
+            return ParallelEachAsync( source, asyncAction, options.TaskScheduler, options.MaxDegreeOfParallelism, options.CancellationToken );
 
-        return ForEachAsync( source, asyncAction, options.MaxDegreeOfParallelism, options.CancellationToken );
+        return ParallelEachAsync( source, asyncAction, options.MaxDegreeOfParallelism, options.CancellationToken );
     }
 
-    public static Task ForEachAsync<T>(
+    public static Task ParallelEachAsync<T>(
         this IEnumerable<T> source,
         Func<T, Task> asyncAction,
         int maxDegreeOfParallelism,
@@ -77,7 +77,7 @@ public static class IEnumerableExtensions
         }, TaskScheduler.Default ); // Run continuation on the default scheduler
     }
 
-    public static Task ForEachAsync<T>(
+    public static Task ParallelEachAsync<T>(
         this IEnumerable<T> source,
         Func<T, Task> asyncAction,
         TaskScheduler scheduler,
