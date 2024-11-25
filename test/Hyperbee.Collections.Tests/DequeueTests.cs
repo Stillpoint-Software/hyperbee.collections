@@ -39,7 +39,7 @@ public class DequeueTests
 
         var collection = new[] { 0, 1, 2, 3, 4, 5 };
         deque = new Deque<int>( collection );
-        Assert.AreEqual((int) BitOperations.RoundUpToPowerOf2((uint) collection.Length ), deque.Capacity );
+        Assert.AreEqual( (int) BitOperations.RoundUpToPowerOf2( (uint) collection.Length ), deque.Capacity );
     }
 
     [DataTestMethod]

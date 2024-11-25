@@ -81,7 +81,7 @@ public class Deque<T> : IList<T>
                 return;
 
             // create a new array and copy the old values.
-            value = (int) BitOperations.RoundUpToPowerOf2((uint) value );
+            value = (int) BitOperations.RoundUpToPowerOf2( (uint) value );
 
             var newBuffer = new T[value];
             CopyTo( newBuffer, 0 );
