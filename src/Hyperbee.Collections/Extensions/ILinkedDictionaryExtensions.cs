@@ -13,17 +13,17 @@ public static class ILinkedDictionaryExtensions
 
     // projection across linked dictionary layers
 
-    public static IEnumerable<TOutput> Select<TKey, TValue, TOutput>( this ILinkedDictionary<TKey, TValue> linked, Func<int, KeyValuePair<TKey, TValue>, TOutput> selector, KeyValueOptions options = KeyValueOptions.None )
+    public static IEnumerable<TOutput> Select<TKey, TValue, TOutput>( this ILinkedDictionary<TKey, TValue> linked, Func<int, KeyValuePair<TKey, TValue>, TOutput> selector, KeyScope options = KeyScope.All )
     {
         var offset = 0;
 
-        var keys = options == KeyValueOptions.First ? new HashSet<TKey>( linked.Comparer ) : null;
+        var keys = options == KeyScope.Closest ? new HashSet<TKey>( linked.Comparer ) : null;
 
         foreach ( var scope in linked.Nodes() )
         {
             foreach ( var pair in scope.Dictionary )
             {
-                if ( options == KeyValueOptions.First )
+                if ( options == KeyScope.Closest )
                 {
                     if ( keys!.Contains( pair.Key ) )
                         continue;
@@ -34,7 +34,7 @@ public static class ILinkedDictionaryExtensions
                 yield return selector( offset, pair );
             }
 
-            if ( options == KeyValueOptions.Current )
+            if ( options == KeyScope.Current )
                 break;
 
             offset++;

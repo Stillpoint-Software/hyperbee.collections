@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Hyperbee.Collections.Extensions;
+﻿using Hyperbee.Collections.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests;
@@ -23,7 +21,7 @@ public class LinkedDictionaryTests
         ld.Push( d2 );
 
         var expected = CreateArray( output );
-        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyValueOptions.All ).OrderBy( x => x ).ToArray();
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.All ).OrderBy( x => x ).ToArray();
 
         CollectionAssert.AreEquivalent( expected, result );
     }
@@ -41,14 +39,14 @@ public class LinkedDictionaryTests
         ld.Push( d2 );
 
         var expected = CreateArray( output );
-        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyValueOptions.Current ).OrderBy( x => x ).ToArray();
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.Current ).OrderBy( x => x ).ToArray();
 
         CollectionAssert.AreEquivalent( expected, result );
     }
 
     [DataTestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee,1:bb,1:cc" )]
-    public void Should_select_first( string input1, string input2, string output )
+    public void Should_select_closest( string input1, string input2, string output )
     {
         var d1 = CreateDictionary( input1 );
         var d2 = CreateDictionary( input2 );
@@ -59,17 +57,19 @@ public class LinkedDictionaryTests
         ld.Push( d2 );
 
         var expected = CreateArray( output );
-        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyValueOptions.First ).OrderBy( x => x ).ToArray();
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.Closest ).OrderBy( x => x ).ToArray();
 
         CollectionAssert.AreEquivalent( expected, result );
     }
+
+    // Helpers
 
     private static string[] CreateArray( string input )
     {
         return input.Split( Separator );
     }
 
-    private static IDictionary<string, string> CreateDictionary( string input )
+    private static Dictionary<string, string> CreateDictionary( string input )
     {
         var collection = CreateArray( input )
             .Select( x => new KeyValuePair<string, string>( x, x ) )

@@ -1,5 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Hyperbee.Collections.Extensions;
+// ReSharper disable ReturnValueOfPureMethodIsNotUsed
+#pragma warning disable CA1806
 
 namespace Hyperbee.Collections.Benchmark;
 public class CollectionsBenchmark
@@ -23,7 +25,7 @@ public class CollectionsBenchmark
         string output = string.Empty;
 
         var expected = CreateArray( output );
-        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyValueOptions.All ).OrderBy( x => x ).ToArray();
+        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.All ).OrderBy( x => x ).ToArray();
     }
 
     public void LinkedDirectorySelectCurrent()
@@ -39,16 +41,17 @@ public class CollectionsBenchmark
         string output = string.Empty;
 
         var expected = CreateArray( output );
-        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyValueOptions.Current ).OrderBy( x => x ).ToArray();
+        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.Current ).OrderBy( x => x ).ToArray();
     }
 
+    // Helpers
 
     private static string[] CreateArray( string input )
     {
         return input.Split( Separator );
     }
 
-    private static IDictionary<string, string> CreateDictionary( string input )
+    private static Dictionary<string, string> CreateDictionary( string input )
     {
         var collection = CreateArray( input )
             .Select( x => new KeyValuePair<string, string>( x, x ) )
