@@ -8,7 +8,7 @@ public static class ILinkedDictionaryExtensions
     public static IDisposable Enter<TKey, TValue>( this ILinkedDictionary<TKey, TValue> linked, IEnumerable<KeyValuePair<TKey, TValue>> collection )
     {
         linked.Push( collection );
-        return new Disposable( () => linked.TryPop( out _ ) );
+        return new Disposable( () => linked.Pop() );
     }
 
     // projection across linked dictionary layers

@@ -35,6 +35,7 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
     void Push( IEnumerable<KeyValuePair<TKey, TValue>> collection = default );
     void Push( string name, IEnumerable<KeyValuePair<TKey, TValue>> collection = default );
+    LinkedDictionaryNode<TKey, TValue> Pop();
     bool TryPop( out LinkedDictionaryNode<TKey, TValue> scope );
 }
 
@@ -109,6 +110,12 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
             updated = original?.Push( newNode );
         }
         while ( Interlocked.CompareExchange( ref _scopes, updated, original ) != original );
+    }
+
+    public LinkedDictionaryNode<TKey, TValue> Pop()
+    {
+        TryPop( out var scope );
+        return scope;
     }
 
     public bool TryPop( out LinkedDictionaryNode<TKey, TValue> scope )
