@@ -6,6 +6,13 @@ namespace Hyperbee.Collections;
 
 // a dictionary comprised of a stack of dictionaries
 
+public enum KeyScope
+{
+    Current,
+    Closest,
+    All
+}
+
 public record LinkedDictionaryNode<TKey, TValue>
 {
     public string Name { get; init; }
@@ -18,7 +25,7 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
     string Name { get; }
 
-    IEnumerable<LinkedDictionaryNode<TKey, TValue>> Nodes();
+    IEnumerable<LinkedDictionaryNode<TKey, TValue>> Scopes();
     IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope = KeyScope.Closest );
     IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter );
 
@@ -28,19 +35,21 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
     void Push( IEnumerable<KeyValuePair<TKey, TValue>> collection = default );
     void Push( string name, IEnumerable<KeyValuePair<TKey, TValue>> collection = default );
-    LinkedDictionaryNode<TKey, TValue> Pop();
+    bool TryPop( out LinkedDictionaryNode<TKey, TValue> scope );
 }
 
 public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 {
-    private ImmutableStack<LinkedDictionaryNode<TKey, TValue>> _nodes = ImmutableStack<LinkedDictionaryNode<TKey, TValue>>.Empty;
+    private ImmutableStack<LinkedDictionaryNode<TKey, TValue>> _scopes = ImmutableStack<LinkedDictionaryNode<TKey, TValue>>.Empty;
 
     public IEqualityComparer<TKey> Comparer { get; }
 
     // ctors
+    
     public LinkedDictionary()
     {
     }
+
     public LinkedDictionary( IEqualityComparer<TKey> comparer )
     {
         Comparer = comparer ?? EqualityComparer<TKey>.Default;
@@ -67,7 +76,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     public LinkedDictionary( ILinkedDictionary<TKey, TValue> inner, IEnumerable<KeyValuePair<TKey, TValue>> collection )
     {
         Comparer = inner.Comparer;
-        _nodes = ImmutableStack.CreateRange( inner.Nodes() );
+        _scopes = ImmutableStack.CreateRange( inner.Scopes() );
 
         if ( collection != null )
             Push( collection );
@@ -96,28 +105,30 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
         do
         {
-            original = _nodes;
-            updated = original.Push( newNode );
+            original = _scopes;
+            updated = original?.Push( newNode );
         }
-        while ( Interlocked.CompareExchange( ref _nodes, updated, original ) != original );
+        while ( Interlocked.CompareExchange( ref _scopes, updated, original ) != original );
     }
 
-    public LinkedDictionaryNode<TKey, TValue> Pop()
+    public bool TryPop( out LinkedDictionaryNode<TKey, TValue> scope )
     {
         ImmutableStack<LinkedDictionaryNode<TKey, TValue>> original, updated;
-        LinkedDictionaryNode<TKey, TValue> node;
 
         do
         {
-            if ( _nodes.IsEmpty )
-                throw new InvalidOperationException( "Cannot pop from an empty stack." );
+            if ( _scopes == null || _scopes.IsEmpty )
+            {
+                scope = default;
+                return false;
+            }
 
-            original = _nodes;
-            updated = original.Pop( out node );
+            original = _scopes;
+            updated = original.Pop( out scope );
         }
-        while ( Interlocked.CompareExchange( ref _nodes, updated, original ) != original );
+        while ( Interlocked.CompareExchange( ref _scopes, updated, original ) != original );
 
-        return node;
+        return true;
     }
 
     // Counting
@@ -126,7 +137,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     {
         return keyScope switch
         {
-            KeyScope.Current => _nodes.IsEmpty ? 0 : _nodes.Peek().Dictionary.Count,
+            KeyScope.Current => _scopes.IsEmpty ? 0 : _scopes.Peek().Dictionary.Count,
             KeyScope.Closest => GetUniqueCount(),
             KeyScope.All => GetTotalCount(),
             _ => throw new ArgumentOutOfRangeException( nameof( keyScope ) )
@@ -139,7 +150,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
         return keyScope switch
         {
-            KeyScope.Current => _nodes.IsEmpty ? 0 : _nodes.Peek().Dictionary.Count( predicate ),
+            KeyScope.Current => _scopes.IsEmpty ? 0 : _scopes.Peek().Dictionary.Count( predicate ),
             KeyScope.Closest => GetUniqueCount( predicate ),
             KeyScope.All => GetTotalCount( predicate ),
             _ => throw new ArgumentOutOfRangeException( nameof( keyScope ) )
@@ -148,24 +159,26 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     private int GetTotalCount()
     {
-        return _nodes.Sum( node => node.Dictionary.Count );
+        return _scopes.Sum( node => node.Dictionary.Count );
     }
 
     private int GetTotalCount( Func<KeyValuePair<TKey, TValue>, bool> predicate )
     {
-        return _nodes.Sum( node => node.Dictionary.Count( predicate ) );
+        return _scopes.Sum( node => node.Dictionary.Count( predicate ) );
     }
 
     private int GetUniqueCount()
     {
         var keys = new HashSet<TKey>( Comparer );
-        foreach ( var node in _nodes )
+        
+        foreach ( var node in _scopes )
         {
             foreach ( var key in node.Dictionary.Keys )
             {
                 keys.Add( key );
             }
         }
+
         return keys.Count;
     }
 
@@ -173,22 +186,21 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     {
         var keys = new HashSet<TKey>( Comparer );
 
-        foreach ( var node in _nodes )
+        foreach ( var node in _scopes )
         {
             foreach ( var pair in node.Dictionary )
             {
                 if ( predicate( pair ) )
-                {
                     keys.Add( pair.Key );
-                }
             }
         }
+
         return keys.Count;
     }
 
     // ILinkedDictionary
 
-    public string Name => _nodes.PeekRef().Name;
+    public string Name => _scopes.PeekRef().Name;
 
     public TValue this[TKey key, KeyScope keyScope]
     {
@@ -202,12 +214,10 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
             if ( keyScope != KeyScope.Current )
             {
                 // find and set if exists in an inner node
-                foreach ( var scope in _nodes )
+                foreach ( var scope in _scopes )
                 {
                     if ( !scope.Dictionary.ContainsKey( key ) )
-                    {
                         continue;
-                    }
 
                     scope.Dictionary[key] = value;
                     return;
@@ -215,22 +225,19 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
             }
 
             // set in current node
-            _nodes.Peek().Dictionary[key] = value;
+            _scopes.Peek().Dictionary[key] = value;
         }
     }
 
-    public IEnumerable<LinkedDictionaryNode<TKey, TValue>> Nodes() => _nodes;
+    public IEnumerable<LinkedDictionaryNode<TKey, TValue>> Scopes() => _scopes;
 
-    public IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope = KeyScope.Closest )
-    {
-        return Items( keyScope, null );
-    }
+    public IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope = KeyScope.Closest ) => Items( keyScope, null );
 
     public IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter )
     {
         var keys = keyScope == KeyScope.Closest ? new HashSet<TKey>( Comparer ) : null;
 
-        foreach ( var scope in _nodes )
+        foreach ( var scope in _scopes )
         {
             foreach ( var pair in scope.Dictionary )
             {
@@ -257,17 +264,18 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     {
         if ( options != KeyScope.Current && options != KeyScope.Closest )
         {
-            _nodes.Pop( out var node );
-            _nodes = [node];
+            _scopes.Pop( out var node );
+            _scopes = [node];
         }
 
-        _nodes.PeekRef().Dictionary.Clear();
+        _scopes.PeekRef().Dictionary.Clear();
     }
 
     public bool Remove( TKey key, KeyScope keyScope )
     {
         var result = false;
-        foreach ( var scope in _nodes )
+
+        foreach ( var scope in _scopes )
         {
             if ( !scope.Dictionary.Remove( key ) )
                 continue;
@@ -277,6 +285,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
             if ( keyScope == KeyScope.Closest )
                 break;
         }
+
         return result;
     }
 
@@ -309,13 +318,13 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public void Clear() => Clear( KeyScope.All );
 
-    public bool ContainsKey( TKey key ) => _nodes.Any( scope => scope.Dictionary.ContainsKey( key ) );
+    public bool ContainsKey( TKey key ) => _scopes.Any( scope => scope.Dictionary.ContainsKey( key ) );
 
     public bool Remove( TKey key ) => Remove( key, KeyScope.Closest );
 
     public bool TryGetValue( TKey key, out TValue value )
     {
-        foreach ( var scope in _nodes )
+        foreach ( var scope in _scopes )
         {
             if ( scope.Dictionary.TryGetValue( key, out value ) )
                 return true;
@@ -333,7 +342,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     bool ICollection<KeyValuePair<TKey, TValue>>.Contains( KeyValuePair<TKey, TValue> item )
     {
-        foreach ( var scope in _nodes )
+        foreach ( var scope in _scopes )
         {
             if ( scope.Dictionary.TryGetValue( item.Key, out var value ) && EqualityComparer<TValue>.Default.Equals( value, item.Value ) )
                 return true;
@@ -359,7 +368,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     bool ICollection<KeyValuePair<TKey, TValue>>.Remove( KeyValuePair<TKey, TValue> item )
     {
-        foreach ( var scope in _nodes )
+        foreach ( var scope in _scopes )
         {
             if ( !scope.Dictionary.TryGetValue( item.Key, out var value ) || !EqualityComparer<TValue>.Default.Equals( value, item.Value ) )
                 continue;
@@ -375,12 +384,4 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => Items( KeyScope.All ).GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-}
-
-public enum KeyScope
-{
-    Current,
-    Closest,
-    All
 }

@@ -8,7 +8,7 @@ public static class ILinkedDictionaryExtensions
     public static IDisposable Enter<TKey, TValue>( this ILinkedDictionary<TKey, TValue> linked, IEnumerable<KeyValuePair<TKey, TValue>> collection )
     {
         linked.Push( collection );
-        return new Disposable( () => linked.Pop() );
+        return new Disposable( () => linked.TryPop( out _ ) );
     }
 
     // projection across linked dictionary layers
@@ -19,7 +19,7 @@ public static class ILinkedDictionaryExtensions
 
         var keys = options == KeyScope.Closest ? new HashSet<TKey>( linked.Comparer ) : null;
 
-        foreach ( var scope in linked.Nodes() )
+        foreach ( var scope in linked.Scopes() )
         {
             foreach ( var pair in scope.Dictionary )
             {
