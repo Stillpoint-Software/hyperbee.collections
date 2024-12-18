@@ -45,7 +45,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     public IEqualityComparer<TKey> Comparer { get; }
 
     // ctors
-    
+
     public LinkedDictionary()
     {
     }
@@ -170,7 +170,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     private int GetUniqueCount()
     {
         var keys = new HashSet<TKey>( Comparer );
-        
+
         foreach ( var node in _scopes )
         {
             foreach ( var key in node.Dictionary.Keys )
