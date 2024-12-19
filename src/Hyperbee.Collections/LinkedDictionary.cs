@@ -40,11 +40,12 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
 public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 {
-    private ConcurrentStack<LinkedDictionaryNode<TKey, TValue>> _scopes = new();
+    private readonly ConcurrentStack<LinkedDictionaryNode<TKey, TValue>> _scopes = new();
 
     public IEqualityComparer<TKey> Comparer { get; }
 
     // ctors
+
     public LinkedDictionary()
     {
     }
@@ -380,5 +381,4 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => Items( KeyScope.All ).GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
 }
