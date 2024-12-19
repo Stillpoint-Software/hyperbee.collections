@@ -45,11 +45,9 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     public IEqualityComparer<TKey> Comparer { get; }
 
     // ctors
-
     public LinkedDictionary()
     {
     }
-
     public LinkedDictionary( IEqualityComparer<TKey> comparer )
     {
         Comparer = comparer ?? EqualityComparer<TKey>.Default;
@@ -77,7 +75,6 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     {
         Comparer = inner.Comparer;
         _scopes = new ConcurrentStack<LinkedDictionaryNode<TKey, TValue>>( inner.Scopes() );
-        //_scopes = ImmutableStack.CreateRange( inner.Scopes() );
 
         if ( collection != null )
             Push( collection );
@@ -383,4 +380,5 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => Items( KeyScope.All ).GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
 }
