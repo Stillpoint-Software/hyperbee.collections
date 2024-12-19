@@ -125,7 +125,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
             KeyScope.Current => _scopes.TryPeek( out var top ) ? top.Dictionary.Count : 0,
             KeyScope.Closest => GetUniqueCount(),
             KeyScope.All => GetTotalCount(),
-            _ => throw new ArgumentOutOfRangeException( nameof(keyScope) )
+            _ => throw new ArgumentOutOfRangeException( nameof( keyScope ) )
         };
     }
 
@@ -138,7 +138,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
             KeyScope.Current => _scopes.TryPeek( out var top ) ? top.Dictionary.Count( predicate ) : 0,
             KeyScope.Closest => GetUniqueCount( predicate ),
             KeyScope.All => GetTotalCount( predicate ),
-            _ => throw new ArgumentOutOfRangeException( nameof(keyScope) )
+            _ => throw new ArgumentOutOfRangeException( nameof( keyScope ) )
         };
     }
 
