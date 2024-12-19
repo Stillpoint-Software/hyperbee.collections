@@ -21,7 +21,8 @@ The `LinkedDictionary<TKey, TValue>` class is a stack of dictionaries with layer
 |--------|-------------|
 | **Push(IEnumerable<KeyValuePair<TKey, TValue>> collection)** | Pushes a new dictionary layer. |
 | **Push(string name, IEnumerable<KeyValuePair<TKey, TValue>> collection)** | Pushes a named dictionary layer. |
-| **LinkedDictionaryNode<TKey, TValue> Pop()** | Pops the top dictionary layer. |
+| **void Pop()** | Pops the top dictionary layer. |
+| **bool TryPop(out LinkedDictionaryNode<TKey, TValue> scope)** | Pops the top dictionary layer. |
 | **bool TryGetValue(TKey key, out TValue value)** | Attempts to get a value by key. |
 | **TValue this[TKey key, KeyValueOptions options]** | Layered key-value assignment. |
 | **void Clear(KeyValueOptions options)** | Clears the dictionary layers based on the specified options. |

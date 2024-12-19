@@ -19,7 +19,7 @@ public static class ILinkedDictionaryExtensions
 
         var keys = options == KeyScope.Closest ? new HashSet<TKey>( linked.Comparer ) : null;
 
-        foreach ( var scope in linked.Nodes() )
+        foreach ( var scope in linked.Scopes() )
         {
             foreach ( var pair in scope.Dictionary )
             {
