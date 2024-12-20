@@ -3,20 +3,20 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-	  <IsPackable>true</IsPackable>
-
-	  <Authors>Stillpoint Software, Inc.</Authors>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageTags>collections;NET;dictionaries;</PackageTags>
-	  <PackageIcon>icon.png</PackageIcon>
-	  <PackageProjectUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections/</PackageProjectUrl>
-	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
-	  <Copyright>Stillpoint Software, Inc.</Copyright>
-	  <Title>Hyperbee Collections</Title>
-	  <Description>Additional collections types such as ConcurrentSet, OrderDictionary and LinkedDictionaries</Description>
-	  <RepositoryUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections</RepositoryUrl>
-	  <RepositoryType>git</RepositoryType>
-	  <PackageReleaseNotes>https://github.com/Stillpoint-Software/hyperbee.collections/releases/latest</PackageReleaseNotes>
+    <IsPackable>true</IsPackable>
+    <PackageId>Hyperbee.Collections</PackageId>
+    <Authors>Stillpoint Software, Inc.</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>collections;NET;dictionaries;</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections/</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Copyright>Stillpoint Software, Inc.</Copyright>
+    <Title>Hyperbee Collections</Title>
+    <Description>Additional collections types such as ConcurrentSet, OrderDictionary and LinkedDictionaries</Description>
+    <RepositoryUrl>https://github.com/Stillpoint-Software/Hyperbee.Collections</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>https://github.com/Stillpoint-Software/hyperbee.collections/releases/latest</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
