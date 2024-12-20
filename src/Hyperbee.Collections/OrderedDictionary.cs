@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if NET8_0 // NET9_0 includes this type
+using System.Collections;
 
 namespace Hyperbee.Collections;
 
@@ -171,3 +172,4 @@ public class OrderedDictionary<TKey, TValue> : IOrderedDictionary<TKey, TValue>
     IEnumerator IEnumerable.GetEnumerator() => ItemList.GetEnumerator();
     IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() => ItemList.GetEnumerator();
 }
+#endif

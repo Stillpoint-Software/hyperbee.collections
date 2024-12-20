@@ -1,9 +1,12 @@
 ﻿using System.Buffers;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Hyperbee.Collections.ArrayPool;
 
+[DebuggerDisplay( "Count = {Count}" )]
+[DebuggerTypeProxy( typeof( PooledArray<>.DebuggerView ) )]
 public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 {
     private T[] _array;
@@ -17,19 +20,46 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
         _disposed = false;
     }
 
-    public ReadOnlySpan<T> AsReadOnlySpan() => new( _array, 0, _count );
-    public ReadOnlySpan<T> AsReadOnlySpan( int start, int count ) => new( _array, start, Math.Min( count, _count ) );
+    public ReadOnlySpan<T> AsReadOnlySpan()
+    {
+        ThrowIfDisposed();
+        return new ReadOnlySpan<T>( _array, 0, _count );
+    }
 
-    public Span<T> AsSpan() => new( _array, 0, _count );
-    public Span<T> AsSpan( int start, int count ) => new( _array, start, Math.Min( count, _count ) );
+    public ReadOnlySpan<T> AsReadOnlySpan( int start, int count )
+    {
+        ThrowIfDisposed();
+        return new ReadOnlySpan<T>( _array, start, Math.Min( count, _count ) );
+    }
 
-    public int Count => _count;
+    public Span<T> AsSpan()
+    {
+        ThrowIfDisposed();
+        return new Span<T>( _array, 0, _count );
+    }
+
+    public Span<T> AsSpan( int start, int count )
+    {
+        ThrowIfDisposed();
+        return new Span<T>( _array, start, Math.Min( count, _count ) );
+    }
+
+    public int Count
+    {
+        get
+        {
+            ThrowIfDisposed();
+            return _count;
+        }
+    }
 
     public T this[int index]
     {
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         get
         {
+            ThrowIfDisposed();
+
             if ( index < 0 || index >= _count )
                 throw new ArgumentOutOfRangeException( nameof( index ) );
 
@@ -38,6 +68,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
         set
         {
+            ThrowIfDisposed();
+
             EnsureCapacity( index + 1 );
             _array[index] = value;
 
@@ -64,12 +96,16 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public void Add( T item )
     {
+        ThrowIfDisposed();
+
         EnsureCapacity( _count + 1 );
         _array[_count++] = item;
     }
 
     public PooledArray<T> CopyTo( Func<T, bool> predicate )
     {
+        ThrowIfDisposed();
+
         var result = new PooledArray<T>( _count );
 
         for ( var i = 0; i < _count; i++ )
@@ -85,6 +121,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void CopyTo( PooledArray<T> destination, int sourceIndex, int destinationIndex, int count )
     {
+        ThrowIfDisposed();
+
         if ( destination == null )
             throw new ArgumentNullException( nameof( destination ) );
 
@@ -111,6 +149,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void CopyTo( T[] destination, int sourceIndex, int destinationIndex, int count )
     {
+        ThrowIfDisposed();
+
         if ( destination == null )
             throw new ArgumentNullException( nameof( destination ) );
 
@@ -134,6 +174,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void Insert( int index, T item )
     {
+        ThrowIfDisposed();
+
         if ( index < 0 || index > _count )
             throw new ArgumentOutOfRangeException( nameof( index ) );
 
@@ -150,6 +192,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void Remove( int index )
     {
+        ThrowIfDisposed();
+
         if ( index < 0 || index >= _count )
             throw new ArgumentOutOfRangeException( nameof( index ) );
 
@@ -163,6 +207,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void Remove( Func<T, bool> predicate )
     {
+        ThrowIfDisposed();
+
         var shiftIndex = 0;
 
         for ( var i = 0; i < _count; i++ )
@@ -186,6 +232,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void Remove( Func<T, int, bool> predicate )
     {
+        ThrowIfDisposed();
+
         if ( predicate == null )
             throw new ArgumentNullException( nameof( predicate ) );
 
@@ -212,6 +260,8 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
 
     public void Resize( int newSize )
     {
+        ThrowIfDisposed();
+
         if ( newSize < 0 )
             throw new ArgumentOutOfRangeException( nameof( newSize ), "Size cannot be negative." );
 
@@ -231,11 +281,15 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
     [MethodImpl( MethodImplOptions.AggressiveInlining )]
     public void Sort( Comparison<T> comparison )
     {
+        ThrowIfDisposed();
+
         Array.Sort( _array, 0, _count, Comparer<T>.Create( comparison ) );
     }
 
     public IEnumerator<T> GetEnumerator()
     {
+        ThrowIfDisposed();
+
         for ( var i = 0; i < _count; i++ )
         {
             yield return _array[i];
@@ -252,6 +306,39 @@ public class PooledArray<T> : IDisposable, IReadOnlyList<T>
         }
 
         ArrayPool<T>.Shared.Return( _array, clearArray: true );
+        _array = null;
         _disposed = true;
+    }
+
+    [MethodImpl( MethodImplOptions.AggressiveInlining )]
+    private void ThrowIfDisposed()
+    {
+        if ( _disposed )
+            throw new ObjectDisposedException( nameof( PooledArray<T> ), "Cannot access a disposed object." );
+    }
+
+    private class DebuggerView
+    {
+        private readonly PooledArray<T> _pooledArray;
+
+        public DebuggerView( PooledArray<T> pooledArray )
+        {
+            _pooledArray = pooledArray ?? throw new ArgumentNullException( nameof( pooledArray ) );
+        }
+
+        [DebuggerBrowsable( DebuggerBrowsableState.RootHidden )]
+        public T[] Items
+        {
+            get
+            {
+                var array = new T[_pooledArray.Count];
+                for ( var i = 0; i < _pooledArray.Count; i++ )
+                {
+                    array[i] = _pooledArray[i];
+                }
+
+                return array;
+            }
+        }
     }
 }

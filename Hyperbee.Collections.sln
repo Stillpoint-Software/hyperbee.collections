@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
-		README.md = README.md
 		solution-helper.psm1 = solution-helper.psm1
 	EndProjectSection
 EndProject
@@ -21,12 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1FA7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{4DBDB7F5-3F66-4572-80B5-3322449C77A4}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\format.yml = .github\workflows\format.yml
 		.github\workflows\Create Issue Branch.yml = .github\workflows\Create Issue Branch.yml
 		.github\workflows\Create Release.yml = .github\workflows\Create Release.yml
+		.github\workflows\format.yml = .github\workflows\format.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
-		.github\workflows\test.yml = .github\workflows\test.yml
 		.github\workflows\Test Report.yml = .github\workflows\Test Report.yml
+		.github\workflows\test.yml = .github\workflows\test.yml
 		Unlist Nuget.yml = Unlist Nuget.yml
 		.github\workflows\Update Version.yml = .github\workflows\Update Version.yml
 	EndProjectSection
