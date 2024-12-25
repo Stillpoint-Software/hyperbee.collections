@@ -28,7 +28,7 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems( KeyScope keyScope = KeyScope.Closest );
     IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter );
     IEnumerable<TKey> EnumerateKeys( KeyScope keyScope = KeyScope.Closest );
-    IEnumerable<TValue> EnumerateValues( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter );
+    IEnumerable<TValue> EnumerateValues( KeyScope keyScope = KeyScope.Closest );
 
     TValue this[TKey key, KeyScope keyScope] { set; }
     void ClearValues( KeyScope keyScope );
@@ -257,7 +257,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public IEnumerable<TKey> EnumerateKeys( KeyScope keyScope = KeyScope.Closest ) => EnumerateItems( keyScope ).Select( kvp => kvp.Key );
 
-    public IEnumerable<TValue> EnumerateValues( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter ) => EnumerateItems( keyScope ).Select( kvp => kvp.Value );
+    public IEnumerable<TValue> EnumerateValues( KeyScope keyScope = KeyScope.Closest ) => EnumerateItems( keyScope ).Select( kvp => kvp.Value );
 
     public void ClearValues( KeyScope options )
     {
