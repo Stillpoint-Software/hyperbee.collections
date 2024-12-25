@@ -264,29 +264,29 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
         switch ( options )
         {
             case KeyScope.All:
-            {
-                foreach ( var node in _nodes )
                 {
-                    node.Dictionary.Clear();
-                }
+                    foreach ( var node in _nodes )
+                    {
+                        node.Dictionary.Clear();
+                    }
 
-                break;
-            }
+                    break;
+                }
 
             case KeyScope.Current:
-            {
-                if ( _nodes.TryPeek( out var node ) )
                 {
-                    node.Dictionary.Clear();
+                    if ( _nodes.TryPeek( out var node ) )
+                    {
+                        node.Dictionary.Clear();
+                    }
+
+                    break;
                 }
 
-                break;
-            }
-
             case KeyScope.Closest:
-            {
-                throw new NotSupportedException( "Clearing values by closest key is not supported." );
-            }
+                {
+                    throw new NotSupportedException( "Clearing values by closest key is not supported." );
+                }
         }
     }
 
