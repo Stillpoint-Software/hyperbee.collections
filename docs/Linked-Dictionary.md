@@ -25,10 +25,12 @@ The `LinkedDictionary<TKey, TValue>` class is a stack of dictionaries with layer
 | **bool TryPop(out LinkedDictionaryNode<TKey, TValue> scope)** | Pops the top dictionary layer. |
 | **bool TryGetValue(TKey key, out TValue value)** | Attempts to get a value by key. |
 | **TValue this[TKey key, KeyValueOptions options]** | Layered key-value assignment. |
-| **void Clear(KeyValueOptions options)** | Clears the dictionary layers based on the specified options. |
+| **void ClearValues(KeyValueOptions options)** | Clears the dictionary layers based on the specified options. |
 | **bool Remove(TKey key, KeyValueOptions options)** | Removes a key from the dictionary layers based on the specified options. |
-| **IEnumerable<LinkedDictionaryNode<TKey, TValue>> Nodes()** | Returns the nodes (layers) of the dictionary. |
-| **IEnumerable<KeyValuePair<TKey, TValue>> Items(KeyValueOptions options)** | Returns the items in the dictionary layers based on the specified options. |
+| **IEnumerable<LinkedDictionaryNode<TKey, TValue>> Scopes()** | Returns the scopes (layers) of the dictionary. |
+| **IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems(KeyValueOptions options)** | Returns the items in the dictionary layers based on the specified options. |
+| **IEnumerable\<TKey\> EnumerateKeys(KeyValueOptions options)** | Returns the keys in the dictionary layers based on the specified options. |
+| **IEnumerable\<TValue\> EmunerateValues(KeyValueOptions options)** | Returns the values in the dictionary layers based on the specified options. |
 
 ## Examples
 
