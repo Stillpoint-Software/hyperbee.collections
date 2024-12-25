@@ -62,6 +62,13 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
+    [TestMethod]
+    public void Should_clear_without_exception_when_empty()
+    {
+        var ld = new LinkedDictionary<string, string>();
+        ld.Clear();
+    }
+
     // Helpers
 
     private static string[] CreateArray( string input )
