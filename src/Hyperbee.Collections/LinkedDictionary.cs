@@ -256,37 +256,37 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
     }
 
     public IEnumerable<TKey> EnumerateKeys( KeyScope keyScope = KeyScope.Closest ) => EnumerateItems( keyScope ).Select( kvp => kvp.Key );
- 
+
     public IEnumerable<TValue> EnumerateValues( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter ) => EnumerateItems( keyScope ).Select( kvp => kvp.Value );
 
     public void ClearValues( KeyScope options )
     {
-        switch( options )
+        switch ( options )
         {
             case KeyScope.All:
-            {
-                foreach ( var node in _scopes )
                 {
-                    node.Dictionary.Clear();
-                }
+                    foreach ( var node in _scopes )
+                    {
+                        node.Dictionary.Clear();
+                    }
 
-                break;
-            }
+                    break;
+                }
 
             case KeyScope.Current:
-            {
-                if ( _scopes.TryPeek( out var node ) )
                 {
-                    node.Dictionary.Clear();
+                    if ( _scopes.TryPeek( out var node ) )
+                    {
+                        node.Dictionary.Clear();
+                    }
+
+                    break;
                 }
 
-                break;
-            }
-
             case KeyScope.Closest:
-            {
-                throw new NotSupportedException( "Clearing values by closest key is not supported." );
-            }
+                {
+                    throw new NotSupportedException( "Clearing values by closest key is not supported." );
+                }
         }
     }
 
