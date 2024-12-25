@@ -5,6 +5,12 @@ public static class ILinkedDictionaryExtensions
 {
     // create scope on linked dictionary operations
 
+    public static IDisposable Enter<TKey, TValue>( this ILinkedDictionary<TKey, TValue> linked )
+    {
+        linked.Push();
+        return new Disposable( () => linked.Pop() );
+    }
+
     public static IDisposable Enter<TKey, TValue>( this ILinkedDictionary<TKey, TValue> linked, IEnumerable<KeyValuePair<TKey, TValue>> collection )
     {
         linked.Push( collection );

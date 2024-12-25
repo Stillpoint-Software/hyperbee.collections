@@ -25,11 +25,13 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     string Name { get; }
 
     IEnumerable<LinkedDictionaryNode<TKey, TValue>> Scopes();
-    IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope = KeyScope.Closest );
-    IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter );
+    IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems( KeyScope keyScope = KeyScope.Closest );
+    IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter );
+    IEnumerable<TKey> EnumerateKeys( KeyScope keyScope = KeyScope.Closest );
+    IEnumerable<TValue> EnumerateValues( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter );
 
     TValue this[TKey key, KeyScope keyScope] { set; }
-    void Clear( KeyScope keyScope );
+    void ClearValues( KeyScope keyScope );
     bool Remove( TKey key, KeyScope keyScope );
 
     void Push( IEnumerable<KeyValuePair<TKey, TValue>> collection = default );
@@ -224,9 +226,9 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public IEnumerable<LinkedDictionaryNode<TKey, TValue>> Scopes() => _scopes;
 
-    public IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope = KeyScope.Closest ) => Items( keyScope, null );
+    public IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems( KeyScope keyScope = KeyScope.Closest ) => EnumerateItems( keyScope, null );
 
-    public IEnumerable<KeyValuePair<TKey, TValue>> Items( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter )
+    public IEnumerable<KeyValuePair<TKey, TValue>> EnumerateItems( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter )
     {
         var keys = keyScope == KeyScope.Closest ? new HashSet<TKey>( Comparer ) : null;
 
@@ -253,23 +255,39 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
         }
     }
 
-    public void Clear( KeyScope options )
+    public IEnumerable<TKey> EnumerateKeys( KeyScope keyScope = KeyScope.Closest ) => EnumerateItems( keyScope ).Select( kvp => kvp.Key );
+ 
+    public IEnumerable<TValue> EnumerateValues( KeyScope keyScope, Predicate<KeyValuePair<TKey, TValue>> filter ) => EnumerateItems( keyScope ).Select( kvp => kvp.Value );
+
+    public void ClearValues( KeyScope options )
     {
-        if ( options != KeyScope.Current && options != KeyScope.Closest )
+        switch( options )
         {
-            if ( _scopes.TryPeek( out var node ) )
+            case KeyScope.All:
             {
-                _scopes.Clear();
-                _scopes.Push( node );
+                foreach ( var node in _scopes )
+                {
+                    node.Dictionary.Clear();
+                }
+
+                break;
+            }
+
+            case KeyScope.Current:
+            {
+                if ( _scopes.TryPeek( out var node ) )
+                {
+                    node.Dictionary.Clear();
+                }
+
+                break;
+            }
+
+            case KeyScope.Closest:
+            {
+                throw new NotSupportedException( "Clearing values by closest key is not supported." );
             }
         }
-
-        if ( !_scopes.TryPeek( out var current ) )
-        {
-            throw new InvalidOperationException( "No scopes available to clear." );
-        }
-
-        current.Dictionary.Clear();
     }
 
     public bool Remove( TKey key, KeyScope keyScope )
@@ -317,7 +335,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
         this[key, KeyScope.Closest] = value;
     }
 
-    public void Clear() => Clear( KeyScope.All );
+    public void Clear() => _scopes.Clear();
 
     public bool ContainsKey( TKey key ) => _scopes.Any( scope => scope.Dictionary.ContainsKey( key ) );
 
@@ -337,8 +355,8 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     // ICollection
 
-    ICollection<TKey> IDictionary<TKey, TValue>.Keys => Items().Select( kvp => kvp.Key ).ToArray();
-    ICollection<TValue> IDictionary<TKey, TValue>.Values => Items().Select( kvp => kvp.Value ).ToArray();
+    ICollection<TKey> IDictionary<TKey, TValue>.Keys => EnumerateItems().Select( kvp => kvp.Key ).ToArray();
+    ICollection<TValue> IDictionary<TKey, TValue>.Values => EnumerateItems().Select( kvp => kvp.Value ).ToArray();
     void ICollection<KeyValuePair<TKey, TValue>>.Add( KeyValuePair<TKey, TValue> item ) => Add( item.Key, item.Value );
 
     bool ICollection<KeyValuePair<TKey, TValue>>.Contains( KeyValuePair<TKey, TValue> item )
@@ -361,7 +379,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
         if ( array.Length - arrayIndex < CountKeys( KeyScope.All ) )
             throw new ArgumentException( "Insufficient space in the target array." );
 
-        foreach ( var pair in Items( KeyScope.All ) )
+        foreach ( var pair in EnumerateItems( KeyScope.All ) )
         {
             array[arrayIndex++] = pair;
         }
@@ -383,6 +401,6 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     // IEnumerable
 
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => Items( KeyScope.All ).GetEnumerator();
+    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => EnumerateItems( KeyScope.All ).GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
