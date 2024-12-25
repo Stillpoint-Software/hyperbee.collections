@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Concurrent;
 
 namespace Hyperbee.Collections;
@@ -264,35 +264,35 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
         switch ( options )
         {
             case KeyScope.All:
-            {
-                foreach ( var node in _nodes )
                 {
-                    foreach ( var node in _scopes )
+                    foreach ( var node in _nodes )
                     {
-                        node.Dictionary.Clear();
-                    }
+                        foreach ( var node in _scopes )
+                        {
+                            node.Dictionary.Clear();
+                        }
 
-                    break;
-                }
+                        break;
+                    }
 
             case KeyScope.Current:
-            {
-                if ( _nodes.TryPeek( out var node ) )
-                {
-                    if ( _scopes.TryPeek( out var node ) )
-                    {
-                        node.Dictionary.Clear();
-                    }
+                        {
+                            if ( _nodes.TryPeek( out var node ) )
+                            {
+                                if ( _scopes.TryPeek( out var node ) )
+                                {
+                                    node.Dictionary.Clear();
+                                }
 
-                    break;
-                }
+                                break;
+                            }
 
             case KeyScope.Closest:
-                {
-                    throw new NotSupportedException( "Clearing values by closest key is not supported." );
-                }
-        }
-    }
+                                {
+                                    throw new NotSupportedException( "Clearing values by closest key is not supported." );
+                                }
+                            }
+                        }
 
     public bool Remove( TKey key, KeyScope keyScope )
     {
