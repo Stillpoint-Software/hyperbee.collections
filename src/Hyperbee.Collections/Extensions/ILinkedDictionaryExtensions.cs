@@ -5,46 +5,55 @@ public static class ILinkedDictionaryExtensions
 {
     // create scope on linked dictionary operations
 
-    public static IDisposable Enter<TKey, TValue>( this ILinkedDictionary<TKey, TValue> linked )
+    public static IDisposable Enter<TKey, TValue>(this ILinkedDictionary<TKey, TValue> linked)
     {
         linked.Push();
-        return new Disposable( () => linked.Pop() );
+        return new Disposable(() => linked.Pop());
     }
 
-    public static IDisposable Enter<TKey, TValue>( this ILinkedDictionary<TKey, TValue> linked, IEnumerable<KeyValuePair<TKey, TValue>> collection )
+    public static IDisposable Enter<TKey, TValue>(this ILinkedDictionary<TKey, TValue> linked, IEnumerable<KeyValuePair<TKey, TValue>> collection)
     {
-        linked.Push( collection );
-        return new Disposable( () => linked.Pop() );
+        linked.Push(collection);
+        return new Disposable(() => linked.Pop());
     }
 
     // projection across linked dictionary layers
 
-    public static IEnumerable<TOutput> Select<TKey, TValue, TOutput>( this ILinkedDictionary<TKey, TValue> linked, Func<int, KeyValuePair<TKey, TValue>, TOutput> selector, KeyScope options = KeyScope.All )
+    public static IEnumerable<TOutput> Select<TKey, TValue, TOutput>(this ILinkedDictionary<TKey, TValue> linked, Func<int, KeyValuePair<TKey, TValue>, TOutput> selector, LinkedNode options = LinkedNode.All)
     {
         var offset = 0;
 
-        var keys = options == KeyScope.Closest ? new HashSet<TKey>( linked.Comparer ) : null;
+        var keys = options == LinkedNode.Single ? new HashSet<TKey>(linked.Comparer) : null;
 
-        foreach ( var scope in linked.Scopes() )
+        foreach (var scope in linked.Nodes())
         {
-            foreach ( var pair in scope.Dictionary )
+            foreach (var pair in scope.Dictionary)
             {
-                if ( options == KeyScope.Closest )
+                if (options == LinkedNode.Single)
                 {
-                    if ( keys!.Contains( pair.Key ) )
+                    if (keys!.Contains(pair.Key))
                         continue;
 
-                    keys.Add( pair.Key );
+                    keys.Add(pair.Key);
                 }
 
-                yield return selector( offset, pair );
+                yield return selector(offset, pair);
             }
 
-            if ( options == KeyScope.Current )
+            if (options == LinkedNode.Current)
                 break;
 
             offset++;
         }
+    }
+
+    public static bool TryAdd<TKey, TValue>(this ILinkedDictionary<TKey, TValue> linked, LinkedNode linkedNode, TKey key, TValue value)
+    {
+        if (linked.ContainsKey( linkedNode, key))
+            return false;
+
+        linked.Add( linkedNode, key, value);
+        return true;
     }
 }
 
