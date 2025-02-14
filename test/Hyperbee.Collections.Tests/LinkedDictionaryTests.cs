@@ -226,7 +226,7 @@ public class LinkedDictionaryTests
         ld.Push( d1 );
         ld.Push( d2 );
 
-        var result = ld.ContainsKey( LinkedNode.Current, key );
+        var result = ld.Contains( LinkedNode.Current, key );
 
         Assert.AreEqual( expected, result );
     }
@@ -245,7 +245,7 @@ public class LinkedDictionaryTests
         ld.Push( d1 );
         ld.Push( d2 );
 
-        var result = ld.ContainsKey( LinkedNode.Single, key );
+        var result = ld.Contains( LinkedNode.Single, key );
 
         Assert.AreEqual( expected, result );
     }
@@ -263,7 +263,7 @@ public class LinkedDictionaryTests
         ld.Push( d1 );
         ld.Push( d2 );
 
-        var result = ld.ContainsKey( LinkedNode.All, key );
+        var result = ld.Contains( LinkedNode.All, key );
 
         Assert.AreEqual( expected, result );
     }

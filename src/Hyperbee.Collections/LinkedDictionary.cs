@@ -31,7 +31,7 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     IEnumerable<TValue> EnumerateValues( LinkedNode linkedNode = LinkedNode.Single );
 
     TValue this[LinkedNode linkedNode, TKey key] { set; }
-    bool ContainsKey( LinkedNode linkedNode, TKey key );
+    bool Contains( LinkedNode linkedNode, TKey key );
     void Add( LinkedNode linkedNode, TKey key, TValue value );
     void Clear( LinkedNode linkedNode );
     bool Remove( LinkedNode linkedNode, TKey key );
@@ -228,7 +228,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
         }
     }
 
-    public bool ContainsKey( LinkedNode linkedNode, TKey key )
+    public bool Contains( LinkedNode linkedNode, TKey key )
     {
         return linkedNode switch { 
             LinkedNode.All => _nodes.All( node => node.Dictionary.ContainsKey( key ) ),
@@ -240,7 +240,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public void Add( LinkedNode linkedNode, TKey key, TValue value )
     {
-        if ( ContainsKey( linkedNode, key ) )
+        if ( Contains( linkedNode, key ) )
             throw new ArgumentException( "Key already exists." );
 
         this[linkedNode, key] = value;
@@ -360,7 +360,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public void Add( TKey key, TValue value )
     {
-        if ( ContainsKey( LinkedNode.Current, key ) )
+        if ( Contains( LinkedNode.Current, key ) )
             throw new ArgumentException( "Key already exists." );
 
         this[LinkedNode.Current, key] = value;
@@ -368,7 +368,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public void Clear() => _nodes.Clear();
 
-    public bool ContainsKey( TKey key ) => ContainsKey( LinkedNode.Single, key );
+    public bool ContainsKey( TKey key ) => Contains( LinkedNode.Single, key );
 
     public bool Remove( TKey key ) => Remove( LinkedNode.Current, key );
 

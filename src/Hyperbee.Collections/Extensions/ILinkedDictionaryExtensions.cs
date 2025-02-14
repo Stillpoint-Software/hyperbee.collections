@@ -49,7 +49,7 @@ public static class ILinkedDictionaryExtensions
 
     public static bool TryAdd<TKey, TValue>(this ILinkedDictionary<TKey, TValue> linked, LinkedNode linkedNode, TKey key, TValue value)
     {
-        if (linked.ContainsKey( linkedNode, key))
+        if (linked.Contains( linkedNode, key))
             return false;
 
         linked.Add( linkedNode, key, value);
