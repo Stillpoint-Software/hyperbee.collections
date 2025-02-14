@@ -25,7 +25,7 @@ public class CollectionsBenchmark
         string output = string.Empty;
 
         var expected = CreateArray( output );
-        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.All ).OrderBy( x => x ).ToArray();
+        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", LinkedNode.All ).OrderBy( x => x ).ToArray();
     }
 
     public void LinkedDirectorySelectCurrent()
@@ -41,7 +41,7 @@ public class CollectionsBenchmark
         string output = string.Empty;
 
         var expected = CreateArray( output );
-        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.Current ).OrderBy( x => x ).ToArray();
+        ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", LinkedNode.Current ).OrderBy( x => x ).ToArray();
     }
 
     // Helpers
