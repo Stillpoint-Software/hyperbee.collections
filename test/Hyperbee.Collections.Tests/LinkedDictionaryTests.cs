@@ -44,6 +44,29 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
+
+    [DataTestMethod]
+    [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee" )]
+    public void Should_add_current( string input1, string input2, string output )
+    {
+        var d1 = CreateDictionary( input1 );
+        var d2 = CreateDictionary( input2 );
+
+        var ld = new LinkedDictionary<string, string>();
+
+        ld.Push( d1 );
+        
+        ld.Push();
+        foreach ( var pair in d2 ) {
+            ld.Add( pair.Key, pair.Value );
+        }
+
+        var expected = CreateArray( output );
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", KeyScope.Current ).OrderBy( x => x ).ToArray();
+
+        CollectionAssert.AreEquivalent( expected, result );
+    }
+
     [DataTestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee,1:bb,1:cc" )]
     public void Should_select_closest( string input1, string input2, string output )

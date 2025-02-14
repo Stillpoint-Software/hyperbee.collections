@@ -31,6 +31,8 @@ public interface ILinkedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     IEnumerable<TValue> EnumerateValues( KeyScope keyScope = KeyScope.Closest );
 
     TValue this[TKey key, KeyScope keyScope] { set; }
+    bool ContainsKey( TKey key, KeyScope keyScope );
+    void Add( TKey key, TValue value, KeyScope keyScope );
     void ClearValues( KeyScope keyScope );
     bool Remove( TKey key, KeyScope keyScope );
 
@@ -209,9 +211,17 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
                         continue;
 
                     scope.Dictionary[key] = value;
-                    return;
+
+                    // if we are trying to set the value at all scopes we need to keep going
+                    if ( keyScope != KeyScope.All )
+                        return;
                 }
             }
+
+            // done if setting the value at all scopes
+
+            if ( keyScope == KeyScope.All && !_nodes.IsEmpty )
+                return;
 
             // set in current node
 
@@ -222,6 +232,32 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
             current.Dictionary[key] = value;
         }
+    }
+
+    public bool ContainsKey( TKey key, KeyScope keyScope )
+    {
+        if ( keyScope == KeyScope.All )
+        {
+            return _nodes.All( scope => scope.Dictionary.ContainsKey( key ) );
+        }
+        else if ( keyScope == KeyScope.Closest )
+        {
+            return ContainsKey( key );
+        }
+        else if ( keyScope == KeyScope.Current )
+        {
+            return _nodes.TryPeek( out var current ) && current.Dictionary.ContainsKey( key );
+        }
+
+        return false;
+    }
+
+    public void Add( TKey key, TValue value, KeyScope keyScope )
+    {
+        if ( ContainsKey( key, keyScope ) )
+            throw new ArgumentException( "Key already exists." );
+
+        this[key, keyScope] = value;
     }
 
     public IEnumerable<LinkedDictionaryNode<TKey, TValue>> Scopes() => _nodes;
@@ -329,10 +365,10 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public void Add( TKey key, TValue value )
     {
-        if ( ContainsKey( key ) )
+        if ( ContainsKey( key, KeyScope.Current ) )
             throw new ArgumentException( "Key already exists." );
 
-        this[key, KeyScope.Closest] = value;
+        this[key, KeyScope.Current] = value;
     }
 
     public void Clear() => _nodes.Clear();
