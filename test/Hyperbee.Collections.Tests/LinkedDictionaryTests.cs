@@ -9,57 +9,57 @@ public class LinkedDictionaryTests
     private const char Separator = ',';
 
     [DataTestMethod]
-    [DataRow("aa1,bb1,cc1,dd1", "aa2,bb2,cc2,dd2", "0:aa2,0:bb2,0:cc2,0:dd2,1:aa1,1:bb1,1:cc1,1:dd1")]
-    public void Should_select_all(string input1, string input2, string output)
+    [DataRow( "aa1,bb1,cc1,dd1", "aa2,bb2,cc2,dd2", "0:aa2,0:bb2,0:cc2,0:dd2,1:aa1,1:bb1,1:cc1,1:dd1" )]
+    public void Should_select_all( string input1, string input2, string output )
     {
-        var d1 = CreateDictionary(input1);
-        var d2 = CreateDictionary(input2);
+        var d1 = CreateDictionary( input1 );
+        var d2 = CreateDictionary( input2 );
 
         var ld = new LinkedDictionary<string, string>();
 
-        ld.Push(d1);
-        ld.Push(d2);
+        ld.Push( d1 );
+        ld.Push( d2 );
 
-        var expected = CreateArray(output);
-        var result = ld.Select((offset, pair) => $"{offset}:{pair.Key}", LinkedNode.All).OrderBy(x => x).ToArray();
+        var expected = CreateArray( output );
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", LinkedNode.All ).OrderBy( x => x ).ToArray();
 
-        CollectionAssert.AreEquivalent(expected, result);
+        CollectionAssert.AreEquivalent( expected, result );
     }
 
     [DataTestMethod]
-    [DataRow("aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee")]
-    public void Should_select_current(string input1, string input2, string output)
+    [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee" )]
+    public void Should_select_current( string input1, string input2, string output )
     {
-        var d1 = CreateDictionary(input1);
-        var d2 = CreateDictionary(input2);
+        var d1 = CreateDictionary( input1 );
+        var d2 = CreateDictionary( input2 );
 
         var ld = new LinkedDictionary<string, string>();
 
-        ld.Push(d1);
-        ld.Push(d2);
+        ld.Push( d1 );
+        ld.Push( d2 );
 
-        var expected = CreateArray(output);
-        var result = ld.Select((offset, pair) => $"{offset}:{pair.Key}", LinkedNode.Current).OrderBy(x => x).ToArray();
+        var expected = CreateArray( output );
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", LinkedNode.Current ).OrderBy( x => x ).ToArray();
 
-        CollectionAssert.AreEquivalent(expected, result);
+        CollectionAssert.AreEquivalent( expected, result );
     }
 
     [DataTestMethod]
-    [DataRow("aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee,1:bb,1:cc")]
-    public void Should_select_single(string input1, string input2, string output)
+    [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee,1:bb,1:cc" )]
+    public void Should_select_single( string input1, string input2, string output )
     {
-        var d1 = CreateDictionary(input1);
-        var d2 = CreateDictionary(input2);
+        var d1 = CreateDictionary( input1 );
+        var d2 = CreateDictionary( input2 );
 
         var ld = new LinkedDictionary<string, string>();
 
-        ld.Push(d1);
-        ld.Push(d2);
+        ld.Push( d1 );
+        ld.Push( d2 );
 
-        var expected = CreateArray(output);
-        var result = ld.Select((offset, pair) => $"{offset}:{pair.Key}", LinkedNode.Single).OrderBy(x => x).ToArray();
+        var expected = CreateArray( output );
+        var result = ld.Select( ( offset, pair ) => $"{offset}:{pair.Key}", LinkedNode.Single ).OrderBy( x => x ).ToArray();
 
-        CollectionAssert.AreEquivalent(expected, result);
+        CollectionAssert.AreEquivalent( expected, result );
     }
 
     [DataTestMethod]
@@ -175,7 +175,7 @@ public class LinkedDictionaryTests
 
         ld.Clear( LinkedNode.All );
 
-        Assert.AreEqual(0, ld.Count);
+        Assert.AreEqual( 0, ld.Count );
     }
 
     [DataTestMethod]
@@ -201,16 +201,16 @@ public class LinkedDictionaryTests
     [TestMethod]
     public void Should_remove_item()
     {
-        var d1 = CreateDictionary("aa,bb,cc,dd");
+        var d1 = CreateDictionary( "aa,bb,cc,dd" );
         var ld = new LinkedDictionary<string, string>();
 
-        ld.Push(d1);
-        ld.Remove("bb");
+        ld.Push( d1 );
+        ld.Remove( "bb" );
 
-        var expected = CreateArray("aa,cc,dd");
-        var result = ld.Select((offset, pair) => pair.Key, LinkedNode.Current).OrderBy(x => x).ToArray();
+        var expected = CreateArray( "aa,cc,dd" );
+        var result = ld.Select( ( offset, pair ) => pair.Key, LinkedNode.Current ).OrderBy( x => x ).ToArray();
 
-        CollectionAssert.AreEquivalent(expected, result);
+        CollectionAssert.AreEquivalent( expected, result );
     }
 
     [TestMethod]
@@ -270,18 +270,18 @@ public class LinkedDictionaryTests
 
     // Helpers
 
-    private static string[] CreateArray(string input)
+    private static string[] CreateArray( string input )
     {
-        return input.Split(Separator);
+        return input.Split( Separator );
     }
 
-    private static Dictionary<string, string> CreateDictionary(string input)
+    private static Dictionary<string, string> CreateDictionary( string input )
     {
-        var collection = CreateArray(input)
-            .Select(x => new KeyValuePair<string, string>(x, x))
+        var collection = CreateArray( input )
+            .Select( x => new KeyValuePair<string, string>( x, x ) )
             .ToArray();
 
-        return new Dictionary<string, string>(collection);
+        return new Dictionary<string, string>( collection );
     }
 
 
