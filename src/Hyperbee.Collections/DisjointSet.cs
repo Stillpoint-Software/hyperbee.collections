@@ -2,10 +2,10 @@
 
 namespace Hyperbee.Collections;
 
-public interface IDisjointSet<T>: IReadOnlyCollection<T>
+public interface IDisjointSet<T> : IReadOnlyCollection<T>
 {
     public IEnumerable<T> Keys { get; }
-    
+
     bool AreConnected( T item1, T item2 );
     bool TryAdd( T item );
     bool TryAdd( IEnumerable<T> items );
@@ -21,7 +21,7 @@ public class DisjointSet<T> : IDisjointSet<T>
     private readonly OnDisjointUnion _onDisjointUnion;
 
     public delegate void OnDisjointUnion( T representative, T retired );
-    
+
     public DisjointSet( IEqualityComparer<T> comparer = null )
     {
         _comparer = comparer ?? EqualityComparer<T>.Default;
@@ -54,8 +54,8 @@ public class DisjointSet<T> : IDisjointSet<T>
             return false;
 
         using var enumerator = items.GetEnumerator();
-        
-        if ( !enumerator.MoveNext())
+
+        if ( !enumerator.MoveNext() )
             return false;
 
         // Use first item as the representative
@@ -118,7 +118,7 @@ public class DisjointSet<T> : IDisjointSet<T>
         var root1 = Find( item1 );
         var root2 = Find( item2 );
 
-        if ( _comparer.Equals( root1, root2 ) ) 
+        if ( _comparer.Equals( root1, root2 ) )
             return false; // Items were already in the same group
 
         _parent[root2] = root1;

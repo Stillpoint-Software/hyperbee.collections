@@ -101,7 +101,7 @@ public class DisjointSetTests
     }
 
     [TestMethod]
-    [ExpectedException( typeof(InvalidOperationException) )]
+    [ExpectedException( typeof( InvalidOperationException ) )]
     public void Find_NonExistentItem_ShouldThrowException()
     {
         // Arrange
