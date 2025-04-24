@@ -230,7 +230,8 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public bool Contains( LinkedNode linkedNode, TKey key )
     {
-        return linkedNode switch { 
+        return linkedNode switch
+        {
             LinkedNode.All => _nodes.All( node => node.Dictionary.ContainsKey( key ) ),
             LinkedNode.Single => _nodes.Any( node => node.Dictionary.ContainsKey( key ) ),
             LinkedNode.Current => _nodes.TryPeek( out var current ) && current.Dictionary.ContainsKey( key ),
