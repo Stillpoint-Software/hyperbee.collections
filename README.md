@@ -73,9 +73,43 @@ A double-ended queue supporting efficient operations at both ends.
 var deque = new Deque<int>();
 deque.AddFirst(1);
 deque.AddLast(2);
+
 Console.WriteLine(deque.RemoveFirst()); // 1
 ```
 
+### DisjointSet
+
+The `DisjointSet` class provides an implementation of the union-find algorithm, which is used to efficiently manage and query disjoint sets.
+
+#### Properties
+- **Count**: The number of disjoint sets.
+- **Size**: The size of the underlying data structure.
+
+#### Methods
+- `void MakeSet(T item)`: Creates a new set containing the specified item.
+- `T Find(T item)`: Finds the representative of the set containing the specified item.
+- `void Union(T item1, T item2)`: Merges the sets containing the two specified items.
+- `bool AreConnected(T item1, T item2)`: Checks if two items belong to the same set.
+
+#### Example
+```csharp
+var set = new DisjointSet<int>();
+
+// Add elements to the set
+set.TryAdd(1);
+set.TryAdd(2);
+set.TryAdd(3);
+
+// Union two elements
+set.Union(1, 2);
+
+// Find the representative of a group
+Console.WriteLine(set.Find(1)); // Outputs: 1
+Console.WriteLine(set.Find(2)); // Outputs: 1 (same group as 1)
+
+// Check if two elements are in the same group
+Console.WriteLine(AreConnected(1, 2)); // Outputs: False
+```
 
 ### DynamicDictionary
 
