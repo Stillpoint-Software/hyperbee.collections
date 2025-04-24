@@ -7,6 +7,7 @@ public interface IDisjointSet<T> : IReadOnlyCollection<T>
     public IEnumerable<T> Keys { get; }
 
     bool AreConnected( T item1, T item2 );
+    void Clear();
     bool TryAdd( T item );
     bool TryAdd( IEnumerable<T> items );
     T Find( T item );
@@ -36,6 +37,11 @@ public class DisjointSet<T> : IDisjointSet<T>
     }
 
     public int Count => _parent.Count;
+
+    public void Clear()
+    {
+        _parent.Clear();
+    }
 
     public bool AreConnected( T item1, T item2 )
     {
