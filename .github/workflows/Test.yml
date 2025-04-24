@@ -14,11 +14,15 @@ on:
     - main
     - develop
 
+permissions:
+  contents: read
+  actions: read
+
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   SOLUTION_NAME: ${{ vars.SOLUTION_NAME }}
-  DOTNET_VERSION: '9.0.x'
-    
+  DOTNET_VERSION: "9.0.x"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -53,7 +57,7 @@ jobs:
         dotnet test --no-build --configuration ${{ env.BUILD_CONFIGURATION }} --logger:trx --results-directory:./TestResults ${{ env.SOLUTION_NAME }}
  
     - name: Upload Test Results
-      uses: actions/upload-artifact@v4 # upload test results
+      uses: actions/upload-artifact@v3 # upload test results
       if: success() || failure() # run this step even if previous step failed
       with:
         name: test-results

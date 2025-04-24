@@ -20,14 +20,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1FA7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{4DBDB7F5-3F66-4572-80B5-3322449C77A4}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\Create Issue Branch.yml = .github\workflows\Create Issue Branch.yml
-		.github\workflows\Create Release.yml = .github\workflows\Create Release.yml
+		.github\workflows\create-release.yml = .github\workflows\create-release.yml
+		.github\workflows\deploy-gh-pages.yml = .github\workflows\deploy-gh-pages.yml
 		.github\workflows\format.yml = .github\workflows\format.yml
+		.github\workflows\issue-branch.yml = .github\workflows\issue-branch.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
-		.github\workflows\Test Report.yml = .github\workflows\Test Report.yml
+		.github\workflows\test-report.yml = .github\workflows\test-report.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
-		Unlist Nuget.yml = Unlist Nuget.yml
-		.github\workflows\Update Version.yml = .github\workflows\Update Version.yml
+		.github\workflows\unlist-nuget.yml = .github\workflows\unlist-nuget.yml
+		.github\workflows\update-version.yml = .github\workflows\update-version.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperbee.Collections", "src\Hyperbee.Collections\Hyperbee.Collections.csproj", "{574DD649-BC5B-40F5-92E5-BE6A289D4C92}"

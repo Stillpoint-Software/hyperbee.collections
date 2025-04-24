@@ -5,10 +5,13 @@ on:
   # release:
   #   types: [deleted]
 
+permissions:
+  contents: write
+ 
 env:
   BRANCH_NAME: ${{ github.event.release.target_commitish }}
   PROJECT_NAME: ${{ vars.PROJECT_NAME }}
-    
+
 jobs:
   publish:
     name: unlist on nuget
