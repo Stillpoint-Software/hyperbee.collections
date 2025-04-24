@@ -86,7 +86,8 @@ The `DisjointSet` class provides an implementation of the union-find algorithm, 
 - **Size**: The size of the underlying data structure.
 
 #### Methods
-- `void MakeSet(T item)`: Creates a new set containing the specified item.
+- `bool TryAdd(T item)`: Creates a new set containing the specified item.
+- `bool TryAdd(IEnumerable<T> items)`: Creates a new set containing the specified items.
 - `T Find(T item)`: Finds the representative of the set containing the specified item.
 - `void Union(T item1, T item2)`: Merges the sets containing the two specified items.
 - `bool AreConnected(T item1, T item2)`: Checks if two items belong to the same set.
