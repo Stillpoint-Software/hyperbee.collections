@@ -48,7 +48,7 @@ Console.WriteLine(set.Find(1)); // Outputs: 1
 Console.WriteLine(set.Find(2)); // Outputs: 1 (same group as 1)
 
 // Check if two elements are in the same group
-Console.WriteLine(set.Find(1) == set.Find(3)); // Outputs: False
+Console.WriteLine(AreConnected(1, 2)); // Outputs: False
 ```
 
 ### Example 2: Adding Multiple Elements
