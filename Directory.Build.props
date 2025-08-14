@@ -42,7 +42,7 @@
           PackagePath="\"
           Link="README.md" />
 
-    <None Include="$(MSBuildThisFileDirectory)LICENSE.txt"
+    <None Include="$(MSBuildThisFileDirectory)LICENSE"
           Pack="true"
           PackagePath="\"
           Link="LICENSE" />
