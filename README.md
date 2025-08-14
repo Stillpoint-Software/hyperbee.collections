@@ -86,6 +86,7 @@ The `DisjointSet` class provides an implementation of the union-find algorithm, 
 - **Size**: The size of the underlying data structure.
 
 #### Methods
+- `void Clear()`: Clears the set.
 - `bool TryAdd(T item)`: Creates a new set containing the specified item.
 - `bool TryAdd(IEnumerable<T> items)`: Creates a new set containing the specified items.
 - `T Find(T item)`: Finds the representative of the set containing the specified item.
@@ -255,3 +256,16 @@ Special thanks to:
 
 We welcome contributions! Please see our [Contributing Guide](https://github.com/Stillpoint-Software/.github/blob/main/.github/CONTRIBUTING.md) 
 for more details.
+
+# Status
+
+| Branch     | Action                                                                                                                                                                                                                      |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `develop`  | [![Build status](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml/badge.svg?branch=develop)](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml)  |
+| `main`     | [![Build status](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml/badge.svg)](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml)                 |
+
+# Help
+ See [Todo](https://github.com/Stillpoint-Software/Hyperbee.Collections/blob/main/docs/todo.md)
+
+[![Hyperbee.Collections](https://github.com/Stillpoint-Software/Hyperbee.Collections/blob/main/assets/hyperbee.svg?raw=true)](https://github.com/Stillpoint-Software/Hyperbee.Collections)
+
