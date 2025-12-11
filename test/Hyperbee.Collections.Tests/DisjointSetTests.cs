@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests;
 
@@ -112,14 +112,14 @@ public class DisjointSetTests
         var exception = false;
         try
         {
-            disjointSet.Find(1);
+            disjointSet.Find( 1 );
         }
-        catch (InvalidOperationException)
+        catch ( InvalidOperationException )
         {
             exception = true;
         }
-        
-        Assert.IsTrue(exception, "Expected InvalidOperationException was not thrown");
+
+        Assert.IsTrue( exception, "Expected InvalidOperationException was not thrown" );
     }
 
     [TestMethod]

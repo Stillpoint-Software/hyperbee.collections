@@ -47,12 +47,12 @@ public class PooledStackTests
         {
             stack.Pop();
         }
-        catch (InvalidOperationException)
+        catch ( InvalidOperationException )
         {
             exception = true;
         }
-        
-        Assert.IsTrue(exception, "Expected InvalidOperationException was not thrown");
+
+        Assert.IsTrue( exception, "Expected InvalidOperationException was not thrown" );
     }
 
     [TestMethod]
@@ -99,13 +99,13 @@ public class PooledStackTests
         var exception = false;
         try
         {
-            stack.Push(1);
+            stack.Push( 1 );
         }
-        catch (ObjectDisposedException)
+        catch ( ObjectDisposedException )
         {
             exception = true;
         }
-        
-        Assert.IsTrue(exception, "Expected ObjectDisposedException was not thrown");
+
+        Assert.IsTrue( exception, "Expected ObjectDisposedException was not thrown" );
     }
 }

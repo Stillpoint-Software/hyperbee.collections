@@ -32,12 +32,12 @@ public class PooledArrayTests
         {
             _ = array[0];
         }
-        catch (ArgumentOutOfRangeException)
+        catch ( ArgumentOutOfRangeException )
         {
             exception = true;
         }
-        
-        Assert.IsTrue(exception, "Expected ArgumentOutOfRangeException was not thrown");
+
+        Assert.IsTrue( exception, "Expected ArgumentOutOfRangeException was not thrown" );
     }
 
     [TestMethod]
@@ -71,14 +71,14 @@ public class PooledArrayTests
         var exception = false;
         try
         {
-            array.Add(1);
+            array.Add( 1 );
         }
-        catch (ObjectDisposedException)
+        catch ( ObjectDisposedException )
         {
             exception = true;
         }
-        
-        Assert.IsTrue(exception, "Expected ObjectDisposedException was not thrown");
+
+        Assert.IsTrue( exception, "Expected ObjectDisposedException was not thrown" );
     }
 
     [TestMethod]
