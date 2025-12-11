@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using Hyperbee.Collections.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests.Extensions;
 
@@ -47,23 +46,41 @@ public class IEnumerableExtensionsTests
         } );
 
         // Assert
-        Assert.AreEqual( 0, processedItems.Count, "No items should be processed for an empty collection." );
+        Assert.IsEmpty( processedItems, "No items should be processed for an empty collection." );
     }
 
     [TestMethod]
     public async Task ParallelEachAsync_ShouldThrowArgumentNullException_ForNullSource()
     {
         // Act & Assert
-        await Assert.ThrowsExceptionAsync<ArgumentNullException>( () =>
-            ((IEnumerable<int>) null).ParallelEachAsync( async item => await Task.Yield() ) );
+        var exception = false;
+        try
+        {
+            await ((IEnumerable<int>) null).ParallelEachAsync( async item => await Task.Yield() );
+        }
+        catch ( ArgumentNullException )
+        {
+            exception = true;
+        }
+
+        Assert.IsTrue( exception, "Expected ArgumentNullException was not thrown" );
     }
 
     [TestMethod]
     public async Task ParallelEachAsyncc_ShouldThrowArgumentNullException_ForNullDelegate()
     {
         // Act & Assert
-        await Assert.ThrowsExceptionAsync<ArgumentNullException>( () =>
-            _testData.ParallelEachAsync( null ) );
+        var exception = false;
+        try
+        {
+            await _testData.ParallelEachAsync( null );
+        }
+        catch ( ArgumentNullException )
+        {
+            exception = true;
+        }
+
+        Assert.IsTrue( exception, "Expected ArgumentNullException was not thrown" );
     }
 
     [TestMethod]
@@ -89,7 +106,7 @@ public class IEnumerableExtensionsTests
         }
 
         // Assert
-        Assert.IsTrue( processedItems.Count < _testData.Count, "Not all items should be processed after cancellation." );
+        Assert.IsLessThan( _testData.Count, processedItems.Count, "Not all items should be processed after cancellation." );
     }
 
     [TestMethod]

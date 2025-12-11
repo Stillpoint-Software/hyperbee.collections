@@ -27,7 +27,17 @@ public class PooledArrayTests
         using var array = new PooledArray<int>();
 
         // Act & Assert
-        Assert.ThrowsException<ArgumentOutOfRangeException>( () => _ = array[0] );
+        var exception = false;
+        try
+        {
+            _ = array[0];
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            exception = true;
+        }
+        
+        Assert.IsTrue(exception, "Expected ArgumentOutOfRangeException was not thrown");
     }
 
     [TestMethod]
@@ -58,7 +68,17 @@ public class PooledArrayTests
         array.Dispose();
 
         // Assert
-        Assert.ThrowsException<ObjectDisposedException>( () => array.Add( 1 ) );
+        var exception = false;
+        try
+        {
+            array.Add(1);
+        }
+        catch (ObjectDisposedException)
+        {
+            exception = true;
+        }
+        
+        Assert.IsTrue(exception, "Expected ObjectDisposedException was not thrown");
     }
 
     [TestMethod]

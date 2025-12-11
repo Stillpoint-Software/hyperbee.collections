@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace Hyperbee.Collections.Tests;
+﻿namespace Hyperbee.Collections.Tests;
 
 [TestClass]
 public class AhoCorasickTests
@@ -24,7 +19,7 @@ public class AhoCorasickTests
 
         var matches = trie.Find( haystack ).ToArray();
 
-        Assert.AreEqual( 9, matches.Length );
+        Assert.HasCount( 9, matches );
 
         Assert.IsTrue( "all" == Match( matches[0], haystack ) && 0 == matches[0].Index );
         Assert.IsTrue( "base" == Match( matches[1], haystack ) && 11 == matches[1].Index );
@@ -51,7 +46,7 @@ public class AhoCorasickTests
 
         var matches = trie.Find( haystack ).Where( x => x.Overlap == 0 ).ToArray();
 
-        Assert.AreEqual( 4, matches.Length );
+        Assert.HasCount( 4, matches );
 
         Assert.IsTrue( "all" == Match( matches[0], haystack ) && 0 == matches[0].Index );
         Assert.IsTrue( "bbaselless" == Match( matches[1], haystack ) && 10 == matches[1].Index );
@@ -82,7 +77,7 @@ public class AhoCorasickTests
             } )
             .ToArray();
 
-        Assert.AreEqual( 3, matches.Length );
+        Assert.HasCount( 3, matches );
 
         Assert.IsTrue( Match( matches[0], haystack ) == "Base" && "key_base" == matches[0].Tag && 9 == matches[0].Index );
         Assert.IsTrue( Match( matches[1], haystack ) == "tent" && "key_tent" == matches[1].Tag && 41 == matches[1].Index );
@@ -99,7 +94,7 @@ public class AhoCorasickTests
 
         var matches = trie.Find( haystack ).ToArray();
 
-        Assert.AreEqual( 2, matches.Length );
+        Assert.HasCount( 2, matches );
     }
 
     [TestMethod]
@@ -116,7 +111,7 @@ public class AhoCorasickTests
         var matches = trie.Find( haystack );
         var lines = matches.Select( x => x.Tag ).ToArray();
 
-        Assert.AreEqual( 2, lines.Length );
+        Assert.HasCount( 2, lines );
         Assert.AreEqual( 1, lines[0] );
         Assert.AreEqual( 0, lines[1] );
     }
@@ -145,7 +140,7 @@ public class AhoCorasickTests
             } )
             .ToArray();
 
-        Assert.AreEqual( 2, matches.Length );
+        Assert.HasCount( 2, matches );
         Assert.AreEqual( "base", matches[0].Word );
         Assert.AreEqual( guid1, matches[0].GuidTag );
         Assert.AreEqual( guidRef, matches[1].GuidRef );

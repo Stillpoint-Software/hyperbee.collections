@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace Hyperbee.Collections.Tests;
 
@@ -101,14 +103,23 @@ public class DisjointSetTests
     }
 
     [TestMethod]
-    [ExpectedException( typeof( InvalidOperationException ) )]
     public void Find_NonExistentItem_ShouldThrowException()
     {
         // Arrange
         var disjointSet = new DisjointSet<int>();
 
-        // Act
-        disjointSet.Find( 1 );
+        // Act & Assert
+        var exception = false;
+        try
+        {
+            disjointSet.Find(1);
+        }
+        catch (InvalidOperationException)
+        {
+            exception = true;
+        }
+        
+        Assert.IsTrue(exception, "Expected InvalidOperationException was not thrown");
     }
 
     [TestMethod]

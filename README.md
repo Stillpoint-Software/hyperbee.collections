@@ -264,6 +264,11 @@ for more details.
 | `develop`  | [![Build status](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml/badge.svg?branch=develop)](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml)  |
 | `main`     | [![Build status](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml/badge.svg)](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml)                 |
 
+
+# Benchmarks
+ See [Benchmarks](https://github.com/Stillpoint-Software/Hyperbee.Collections/test/Hyperbee.Collections.Benchmark/benchmark/results/Hyperbee.Collections.Benchmark.CollectionsBenchmark-report-github.md)
+ 
+
 # Help
  See [Todo](https://github.com/Stillpoint-Software/Hyperbee.Collections/blob/main/docs/todo.md)
 
