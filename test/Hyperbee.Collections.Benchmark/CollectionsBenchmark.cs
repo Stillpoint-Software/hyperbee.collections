@@ -4,6 +4,7 @@ using Hyperbee.Collections.Extensions;
 #pragma warning disable CA1806
 
 namespace Hyperbee.Collections.Benchmark;
+
 public class CollectionsBenchmark
 {
     private const char Separator = ',';

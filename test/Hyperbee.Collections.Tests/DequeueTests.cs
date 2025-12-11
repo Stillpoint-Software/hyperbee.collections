@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests;
 
@@ -15,7 +14,7 @@ public class DequeueTests
         Assert.IsTrue( deque.IsEmpty );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,bb,cc,dd" )]
     public void Constructor_should_initialize_with_collection( string input, string output )
     {
@@ -42,7 +41,7 @@ public class DequeueTests
         Assert.AreEqual( (int) BitOperations.RoundUpToPowerOf2( (uint) collection.Length ), deque.Capacity );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "xx", 1, "aa,xx,bb,cc,dd" )] // test InsertRange first half insert
     [DataRow( "aa,bb,cc,dd", "xx,yy", 1, "aa,xx,yy,bb,cc,dd" )]
 
@@ -61,7 +60,7 @@ public class DequeueTests
         CollectionAssert.AreEqual( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "xx,yy,zz", 1, 0, -1, "aa,xx,yy,zz,bb,cc,dd" )]
     [DataRow( "aa,bb,cc,dd", "xx,yy,zz", 1, 0, 0, "aa,bb,cc,dd" )]
     [DataRow( "aa,bb,cc,dd", "xx,yy,zz", 1, 1, -1, "aa,yy,zz,bb,cc,dd" )]
@@ -83,7 +82,7 @@ public class DequeueTests
         CollectionAssert.AreEqual( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd,ee", "xx", false )]
     [DataRow( "aa,bb,cc,dd,ee", "ee", true )]
     public void Contains_should_return_correct_result( string input, string value, bool expected )
@@ -92,7 +91,7 @@ public class DequeueTests
         var deque = new Deque<string>( collection );
         var result = deque.Contains( value );
 
-        Assert.IsTrue( result == expected );
+        Assert.AreEqual( expected, result );
     }
 
     [TestMethod]
@@ -125,7 +124,7 @@ public class DequeueTests
 
         deque.AddLast( expected );
 
-        Assert.IsTrue( deque.Count == 2 );
+        Assert.AreEqual( 2, deque.Count );
         Assert.IsTrue( deque.Contains( expected ) );
 
         var result = deque[1];
@@ -145,7 +144,7 @@ public class DequeueTests
 
         deque.AddFirst( expected );
 
-        Assert.IsTrue( deque.Count == 2 );
+        Assert.AreEqual( 2, deque.Count );
         Assert.IsTrue( deque.Contains( expected ) );
 
         var result = deque[0];

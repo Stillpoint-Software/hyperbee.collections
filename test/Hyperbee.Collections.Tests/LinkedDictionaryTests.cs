@@ -1,5 +1,4 @@
 ﻿using Hyperbee.Collections.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Hyperbee.Collections.Tests;
 
@@ -8,7 +7,7 @@ public class LinkedDictionaryTests
 {
     private const char Separator = ',';
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa1,bb1,cc1,dd1", "aa2,bb2,cc2,dd2", "0:aa2,0:bb2,0:cc2,0:dd2,1:aa1,1:bb1,1:cc1,1:dd1" )]
     public void Should_select_all( string input1, string input2, string output )
     {
@@ -26,7 +25,7 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee" )]
     public void Should_select_current( string input1, string input2, string output )
     {
@@ -44,7 +43,7 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee,1:bb,1:cc" )]
     public void Should_select_single( string input1, string input2, string output )
     {
@@ -62,7 +61,7 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee" )]
     public void Should_add_current( string input1, string input2, string output )
     {
@@ -86,7 +85,7 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "ee", "0:ee,1:aa,1:bb,1:cc,1:dd" )]
     public void Should_add_single( string input1, string input2, string output )
     {
@@ -110,9 +109,8 @@ public class LinkedDictionaryTests
         CollectionAssert.AreEquivalent( expected, result );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "bb" )]
-    [ExpectedException( typeof( ArgumentException ), "Key already exists." )]
     public void Should_add_single_with_same_key( string input1, string input2 )
     {
         var d1 = CreateDictionary( input1 );
@@ -123,14 +121,25 @@ public class LinkedDictionaryTests
         ld.Push( d1 );
         ld.Push();  // empty new scope
 
-        // manually add values
-        foreach ( var pair in d2 )
+        // Act & Assert
+        var exception = false;
+        try
         {
-            ld.Add( LinkedNode.Single, pair.Key, pair.Value );
+            // manually add values
+            foreach ( var pair in d2 )
+            {
+                ld.Add( LinkedNode.Single, pair.Key, pair.Value );
+            }
         }
+        catch ( ArgumentException )
+        {
+            exception = true;
+        }
+
+        Assert.IsTrue( exception, "Expected ArgumentException was not thrown" );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "0:aa,0:dd,0:ee,1:aa,1:bb,1:cc,1:dd" )]
     public void Should_add_all( string input1, string input2, string output )
     {
@@ -161,7 +170,7 @@ public class LinkedDictionaryTests
         ld.Clear();
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee" )]
     public void Should_clear_all_items( string input1, string input2 )
     {
@@ -178,7 +187,7 @@ public class LinkedDictionaryTests
         Assert.AreEqual( 0, ld.Count );
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow( "aa,bb,cc,dd", "aa,dd,ee", "1:aa,1:bb,1:cc,1:dd" )]
     public void Should_clear_current_node( string input1, string input2, string output )
     {
