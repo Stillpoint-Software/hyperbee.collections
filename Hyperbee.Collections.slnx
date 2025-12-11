@@ -8,7 +8,6 @@
   </Folder>
   <Folder Name="/Solution Items/.github/">
     <File Path=".github/dependabot.yml" />
-    <File Path=".github/issue-branch.yml" />
   </Folder>
   <Folder Name="/Solution Items/.github/workflows/">
     <File Path=".github/workflows/create_release.yml" />
