@@ -2,17 +2,12 @@
   <!-- Shared package refs -->
   <ItemGroup>
     <!-- NBGV drives versions; PrivateAssets=all keeps it out of consumers -->
-    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" />
 
     <!-- SourceLink for GitHub -->
-    <PackageReference Include="Microsoft.SourceLink.GitHub" >
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" />
   </ItemGroup>
-
+  
   <!-- SourceLink / build hygiene -->
   <PropertyGroup>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>

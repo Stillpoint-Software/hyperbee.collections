@@ -17,8 +17,8 @@ public class BenchmarkConfig
         public Config()
         {
             AddJob( Job.ShortRun
-                .WithRuntime( CoreRuntime.Core80 )
-                .WithId( ".NET 8" ) );
+             .WithRuntime( CoreRuntime.Core80 )
+             .WithId( ".NET 8" ) );
 
             AddJob( Job.ShortRun
                 .WithRuntime( CoreRuntime.Core10_0 )

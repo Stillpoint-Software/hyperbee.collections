@@ -6,8 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="BenchmarkDotNet"  />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Hyperbee.Collections\Hyperbee.Collections.csproj" />
   </ItemGroup>
