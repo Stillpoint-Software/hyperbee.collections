@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet"  />
+    <PackageReference Include="BenchmarkDotNet" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +15,8 @@
 
   <ItemGroup>
     <PackageReference Update="Microsoft.CodeAnalysis.CSharp.Scripting" />
-    <PackageReference Update="Nerdbank.GitVersioning"  />
+    <PackageReference Update="Microsoft.SourceLink.GitHub" />
+    <PackageReference Update="Nerdbank.GitVersioning" />
   </ItemGroup>
 
 </Project>

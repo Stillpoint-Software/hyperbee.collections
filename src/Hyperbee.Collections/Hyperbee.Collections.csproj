@@ -32,4 +32,8 @@
     <None Include="..\..\README.md" Pack="true" Visible="true" PackagePath="/" Link="README.md" />
     <None Include="..\..\LICENSE" Pack="true" Visible="false" PackagePath="/" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" />
+  </ItemGroup>
 </Project>
