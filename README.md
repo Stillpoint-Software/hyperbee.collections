@@ -271,6 +271,3 @@ for more details.
 
 # Help
  See [Todo](https://github.com/Stillpoint-Software/Hyperbee.Collections/blob/main/docs/todo.md)
-
-[![Hyperbee.Collections](https://github.com/Stillpoint-Software/Hyperbee.Collections/blob/main/assets/hyperbee.svg?raw=true)](https://github.com/Stillpoint-Software/Hyperbee.Collections)
-
