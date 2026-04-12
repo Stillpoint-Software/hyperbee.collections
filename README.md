@@ -261,7 +261,6 @@ for more details.
 
 | Branch     | Action                                                                                                                                                                                                                      |
 |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `develop`  | [![Build status](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml/badge.svg?branch=develop)](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml)  |
 | `main`     | [![Build status](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml/badge.svg)](https://github.com/Stillpoint-Software/Hyperbee.Collections/actions/workflows/pack_publish.yml)                 |
 
 
