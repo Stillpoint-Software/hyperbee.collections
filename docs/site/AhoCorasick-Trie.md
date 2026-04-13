@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: AhoCorasick Trie 
 nav_order: 2

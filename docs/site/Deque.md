@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Deque 
 nav_order: 4
