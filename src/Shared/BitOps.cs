@@ -4,12 +4,11 @@ using System.Numerics;
 
 namespace Hyperbee.Collections;
 
-// Polyfill supplies a System.Numerics.BitOperations for netstandard, but not
-// RoundUpToPowerOf2, which is the only member this library uses. This helper
-// therefore adds just that one method, under its own type name so it cannot
-// collide with Polyfill's BitOperations. On net10.0 and net11.0 it forwards to
-// the intrinsic-backed framework implementation, so behavior on those targets
-// is unchanged.
+// netstandard has no System.Numerics.BitOperations. RoundUpToPowerOf2 is the
+// only member this library uses, so this helper supplies just that one method
+// rather than reproducing the type. On net10.0 and net11.0 it forwards to the
+// intrinsic-backed framework implementation, so behavior on those targets is
+// unchanged.
 
 internal static class BitOps
 {
