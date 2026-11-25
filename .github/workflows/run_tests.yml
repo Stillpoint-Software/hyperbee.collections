@@ -48,4 +48,6 @@ jobs:
     with:
       branch: ${{ needs.discover.outputs.branch_name }}
       solution_name: ${{ vars.SOLUTION_NAME }}
+      # Keep in step with <TargetFrameworks> in Directory.Build.props.
+      frameworks: '["net11.0", "net10.0"]'
     secrets: inherit
