@@ -1,4 +1,4 @@
-#if NETSTANDARD
+﻿#if NETSTANDARD
 
 // Compiler-required types that netstandard does not define. Both are shape-only
 // contracts: the compiler needs IsExternalInit to exist by name before it will
