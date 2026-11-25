@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
+    <!-- netstandard2.1 is a contract, not a runtime; this project runs on the
+         executable targets only. -->
+    <TargetFrameworks>net11.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

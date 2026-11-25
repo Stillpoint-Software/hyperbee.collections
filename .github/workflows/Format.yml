@@ -47,5 +47,9 @@ jobs:
     uses: Stillpoint-Software/shared-workflows/.github/workflows/format.yml@main
     with:
       branch: ${{ needs.discover.outputs.branch_name }}
+      # The 11.0 SDK is required to restore the net11.0 target framework.
+      dotnet_version: |
+        11.0.x
+        10.0.x
     secrets: inherit
       
