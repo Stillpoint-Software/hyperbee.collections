@@ -3,9 +3,16 @@
     <!-- Suppress NU1507 (multiple package sources with CPM) -->
     <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
+  <!--
+    Build-time only. PrivateAssets has to sit on the PackageReference:
+    NuGet ignores it on PackageVersion in Directory.Packages.props, which
+    is why both of these were leaking into the published nuspec as real
+    dependencies, and with them Microsoft.Build.Tasks.Git and
+    System.IO.Hashing.
+  -->
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- SourceLink / build hygiene -->
