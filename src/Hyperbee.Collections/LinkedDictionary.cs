@@ -80,7 +80,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public LinkedDictionary( ILinkedDictionary<TKey, TValue> inner, IEnumerable<KeyValuePair<TKey, TValue>> collection )
     {
-        ArgumentNullException.ThrowIfNull( inner );
+        ThrowIf.Null( inner );
 
         Comparer = inner.Comparer;
         _nodes = new ConcurrentStack<LinkedDictionaryNode<TKey, TValue>>( inner.Nodes() );
@@ -137,7 +137,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     public int CountKeys( LinkedNode linkedNode, Func<KeyValuePair<TKey, TValue>, bool> predicate )
     {
-        ArgumentNullException.ThrowIfNull( predicate );
+        ThrowIf.Null( predicate );
 
         return linkedNode switch
         {
@@ -403,7 +403,7 @@ public class LinkedDictionary<TKey, TValue> : ILinkedDictionary<TKey, TValue>
 
     void ICollection<KeyValuePair<TKey, TValue>>.CopyTo( KeyValuePair<TKey, TValue>[] array, int arrayIndex )
     {
-        ArgumentNullException.ThrowIfNull( array, nameof( array ) );
+        ThrowIf.Null( array, nameof( array ) );
 
         if ( arrayIndex < 0 || arrayIndex > array.Length )
             throw new ArgumentOutOfRangeException( nameof( arrayIndex ) );

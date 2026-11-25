@@ -72,7 +72,7 @@ public class DynamicDictionary : DynamicDictionaryBase<object>
 {
     public static DynamicDictionary FromObject( object instance, bool includeNonPublic = false )
     {
-        ArgumentNullException.ThrowIfNull( instance );
+        ThrowIf.Null( instance );
 
         var bindingAttr = BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.SetProperty;
 

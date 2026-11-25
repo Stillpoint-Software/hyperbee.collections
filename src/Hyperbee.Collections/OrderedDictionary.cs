@@ -1,4 +1,4 @@
-﻿#if NET8_0 // NET9_0 includes this type
+﻿#if NETSTANDARD // net9.0 and later provide System.Collections.Generic.OrderedDictionary in-box
 using System.Collections;
 
 namespace Hyperbee.Collections;
@@ -38,7 +38,7 @@ public class OrderedDictionary<TKey, TValue> : IOrderedDictionary<TKey, TValue>
 
     public OrderedDictionary( int capacity, IEqualityComparer<TKey> comparer )
     {
-        ArgumentOutOfRangeException.ThrowIfNegative( capacity );
+        ThrowIf.Negative( capacity );
 
         _initialCapacity = capacity;
         _comparer = comparer;

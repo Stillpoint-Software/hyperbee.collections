@@ -36,4 +36,26 @@
   <ItemGroup>
     <PackageReference Update="Microsoft.SourceLink.GitHub" />
   </ItemGroup>
+
+  <!-- Shared downlevel helpers, kept in src/Shared to mirror Hyperbee.Expressions. -->
+  <ItemGroup>
+    <Compile Include="..\Shared\*.cs" Link="Shared\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Downlevel support. netstandard lacks several compiler-required and BCL
+       types that net10.0+ provides in-box. These references are scoped to the
+       netstandard targets so the net10.0 and net11.0 assets are unaffected.
+         Polyfill         - IsExternalInit (init accessors), CallerArgumentExpression
+         Microsoft.CSharp - the dynamic runtime binder used by DynamicDictionary -->
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <!-- The SDK defaults netstandard2.1 to C# 8, which predates init accessors and
+         the language features Polyfill's sources use. net10.0+ already default to
+         the SDK's latest, so this only affects the netstandard compilation. -->
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="Polyfill" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CSharp" />
+  </ItemGroup>
 </Project>

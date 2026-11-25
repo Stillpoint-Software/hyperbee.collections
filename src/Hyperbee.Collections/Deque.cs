@@ -30,7 +30,6 @@
 #endregion
 
 using System.Collections;
-using System.Numerics;
 
 // ReSharper disable PossibleMultipleEnumeration
 
@@ -81,7 +80,7 @@ public class Deque<T> : IList<T>
                 return;
 
             // create a new array and copy the old values.
-            value = (int) BitOperations.RoundUpToPowerOf2( (uint) value );
+            value = (int) BitOps.RoundUpToPowerOf2( (uint) value );
 
             var newBuffer = new T[value];
             CopyTo( newBuffer, 0 );
@@ -217,7 +216,7 @@ public class Deque<T> : IList<T>
 
     public void CopyTo( T[] array, int arrayIndex )
     {
-        ArgumentNullException.ThrowIfNull( array, nameof( array ) );
+        ThrowIf.Null( array, nameof( array ) );
 
         if ( _buffer == null )
             return;
