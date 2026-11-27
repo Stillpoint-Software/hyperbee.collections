@@ -1,4 +1,5 @@
-﻿#if NETSTANDARD // net9.0 and later provide System.Collections.Generic.OrderedDictionary in-box
+﻿using Hyperbee.Collections.Internal;
+#if NETSTANDARD // net9.0 and later provide System.Collections.Generic.OrderedDictionary in-box
 using System.Collections;
 
 namespace Hyperbee.Collections;

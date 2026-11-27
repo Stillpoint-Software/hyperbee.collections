@@ -1,4 +1,5 @@
-﻿namespace Hyperbee.Collections.Tests;
+﻿using Hyperbee.Collections.Internal;
+namespace Hyperbee.Collections.Tests;
 
 // ThrowIf is a forwarding shim: on net10.0+ it calls the framework helpers, and on
 // netstandard2.1 it throws directly. These tests pin the observable contract that

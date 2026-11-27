@@ -1,4 +1,5 @@
-﻿namespace Hyperbee.Collections.Extensions;
+﻿using Hyperbee.Collections.Internal;
+namespace Hyperbee.Collections.Extensions;
 
 public static class SetExtensions
 {

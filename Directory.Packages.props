@@ -4,6 +4,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Development Tools -->
+    <!--
+      Build-time only: PolySharp is a source generator. Every project references it
+      with PrivateAssets="all", so it never appears in this repository's package
+      dependencies. See Directory.Build.props for what it generates and why.
+    -->
+    <PackageVersion Include="PolySharp" Version="1.17.1" />
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.10.94">
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>

@@ -37,16 +37,20 @@
     <PackageReference Update="Microsoft.SourceLink.GitHub" />
   </ItemGroup>
 
-  <!-- Shared downlevel helpers, kept in src/Shared to mirror Hyperbee.Expressions. -->
   <ItemGroup>
-    <Compile Include="..\Shared\*.cs" Link="Shared\%(Filename)%(Extension)" />
+    <PackageReference Include="PolySharp" PrivateAssets="all" />
   </ItemGroup>
+
+  <!--
+    Internal helpers live in this project's Internal folder and compile like any
+    other source. The compiler-required types for netstandard2.1 come from
+    PolySharp; see Directory.Build.props.
+  -->
 
   <!-- Downlevel support. netstandard lacks several compiler-required and BCL
        types that net10.0+ provides in-box. Everything here is scoped to the
        netstandard targets so the net10.0 and net11.0 assets are unaffected.
-       The compiler-required types are hand-written in src/Shared, not taken
-       from a polyfill package; see NetstandardShims.cs for why.
+       The compiler-required types come from PolySharp; see Directory.Build.props.
          Microsoft.CSharp - the dynamic runtime binder used by DynamicDictionary -->
   <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
     <!-- The SDK defaults netstandard2.1 to C# 8, which predates init accessors.

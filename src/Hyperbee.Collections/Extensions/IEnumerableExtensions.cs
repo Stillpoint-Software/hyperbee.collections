@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Runtime.ExceptionServices;
+using Hyperbee.Collections.Internal;
 
 namespace Hyperbee.Collections.Extensions;
 

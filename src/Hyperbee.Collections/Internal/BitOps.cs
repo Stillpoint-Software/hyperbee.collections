@@ -2,7 +2,7 @@
 using System.Numerics;
 #endif
 
-namespace Hyperbee.Collections;
+namespace Hyperbee.Collections.Internal;
 
 // netstandard has no System.Numerics.BitOperations. RoundUpToPowerOf2 is the
 // only member this library uses, so this helper supplies just that one method

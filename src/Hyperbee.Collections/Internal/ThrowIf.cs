@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Hyperbee.Collections;
+namespace Hyperbee.Collections.Internal;
 
 // Guard-clause helpers that work on every target framework.
 //

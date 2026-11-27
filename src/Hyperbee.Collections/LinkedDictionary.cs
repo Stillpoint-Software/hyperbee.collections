@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
+using Hyperbee.Collections.Internal;
 
 namespace Hyperbee.Collections;
 

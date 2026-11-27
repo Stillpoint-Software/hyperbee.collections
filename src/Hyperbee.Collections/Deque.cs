@@ -1,4 +1,5 @@
-﻿#region License
+﻿using Hyperbee.Collections.Internal;
+#region License
 //
 // A Generic Double-Ended Queue (Deque) class. 
 // 

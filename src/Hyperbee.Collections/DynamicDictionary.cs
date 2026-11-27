@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Dynamic;
 using System.Reflection;
+using Hyperbee.Collections.Internal;
 
 namespace Hyperbee.Collections;
 
